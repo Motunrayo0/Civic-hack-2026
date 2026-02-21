@@ -28,6 +28,7 @@ backend/venv/
 backend/env/
 backend/ENV/
 backend/.venv/
+.venv
 
 # Python build files
 backend/build/
