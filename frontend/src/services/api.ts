@@ -15,6 +15,7 @@ export interface MongoClassData {
 export interface MongoStudent {
   _id: string; // The backend converts ObjectId to string
   name: string;
+  is_anonymous?: boolean;
   classes?: {
     [className: string]: MongoClassData;
   };
@@ -163,4 +164,28 @@ export async function getClusterSummary(notes: string[], pattern: string): Promi
 
   const data = await response.json();
   return data.summary;
+}
+
+/**
+ * Updates a student's anonymity preference (incognito mode).
+ *
+ * @param studentId - The ID of the student
+ * @param isAnonymous - Whether the student wants to appear anonymous
+ * @returns Status of the update
+ */
+export async function updateStudentAnonymity(
+  studentId: string,
+  isAnonymous: boolean
+): Promise<{ status: string; message: string }> {
+  const response = await fetch(`${API_BASE_URL}/students/${encodeURIComponent(studentId)}/anonymity`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ is_anonymous: isAnonymous }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to update anonymity: ${response.statusText}`);
+  }
+
+  return response.json();
 }

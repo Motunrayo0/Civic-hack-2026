@@ -8,13 +8,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
-from models.students import upload_student_note, get_students, delete_student_note
+from models.students import upload_student_note, get_students, delete_student_note, update_student_anonymity
 
 # ... other imports ...
 
 # from models.teachers import
 # from models.teachers import 
-from services.logic import generate_heatmap_data, analyze_single_student_reflections, generate_cluster_summary
+from services.logic import generate_heatmap_data, analyze_single_student_reflections, generate_cluster_summary, invalidate_heatmap_cache
 
 app = FastAPI()
 
@@ -59,9 +59,18 @@ async def analyze_student(student_id: str, class_name: str):
 
 from pydantic import BaseModel
 
+class AnonymityRequest(BaseModel):
+    is_anonymous: bool
+
 class ClusterSummaryRequest(BaseModel):
     notes: list[str]
     pattern: str
+
+@app.patch("/students/{student_id}/anonymity")
+async def toggle_anonymity(student_id: str, request: AnonymityRequest):
+    result = await update_student_anonymity(student_id, request.is_anonymous)
+    invalidate_heatmap_cache()
+    return result
 
 @app.post("/cluster/summary")
 async def cluster_summary(request: ClusterSummaryRequest):

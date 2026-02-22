@@ -86,3 +86,26 @@ async def delete_student_note(student_id: str, class_name: str, date: str):
         return {"status": "success", "message": "Note deleted successfully."}
     else:
         return {"status": "success", "message": "Note not found."}
+
+async def update_student_anonymity(student_id: str, is_anonymous: bool):
+    from motor.motor_asyncio import AsyncIOMotorClient
+    import certifi
+    from bson.objectid import ObjectId
+
+    client = AsyncIOMotorClient(os.getenv("MONGO_URI", "mongodb://localhost:27017"), tlsCAFile=certifi.where())
+    classroom_sense_db = client["ClassroomSense"]
+
+    try:
+        obj_id = ObjectId(student_id)
+    except Exception:
+        return {"status": "error", "message": "Invalid student ID."}
+
+    result = await classroom_sense_db.students.update_one(
+        {"_id": obj_id},
+        {"$set": {"is_anonymous": is_anonymous}}
+    )
+
+    if result.modified_count > 0:
+        return {"status": "success", "message": "Anonymity preference updated."}
+    else:
+        return {"status": "success", "message": "No change made."}

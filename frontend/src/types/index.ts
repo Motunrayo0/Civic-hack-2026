@@ -29,6 +29,7 @@ export interface Course {
 export interface Student {
   id: string;
   name: string;
+  isAnonymous?: boolean;
   courses: string[];
   reflections: StudentReflection[];
   overallPattern: ThinkingPattern;

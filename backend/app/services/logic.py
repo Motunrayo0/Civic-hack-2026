@@ -193,6 +193,10 @@ _heatmap_cache = {}
 # Per-key locks so concurrent requests for the same heatmap wait instead of making duplicate Gemini calls
 _heatmap_locks: dict[str, asyncio.Lock] = {}
 
+def invalidate_heatmap_cache():
+    """Clear all cached heatmap data (e.g. when a student toggles anonymity)."""
+    _heatmap_cache.clear()
+
 """
 HeatMap Data Generation
 """
@@ -235,6 +239,7 @@ async def generate_heatmap_data(class_name: str, date: str):
                     valid_students.append({
                         "student_id": student_id,
                         "name": name,
+                        "is_anonymous": student.get("is_anonymous", False),
                         "note_text": note_text
                     })
 
@@ -279,7 +284,8 @@ async def generate_heatmap_data(class_name: str, date: str):
 
                 processed_students.append({
                     "student_id": sid,
-                    "name": s["name"],
+                    "name": "Anonymous Student" if s.get("is_anonymous") else s["name"],
+                    "is_anonymous": s.get("is_anonymous", False),
                     "sentiment": s_data.get("sentiment", "UNKNOWN"),
                     "confidence": s_data.get("confidence", 0.0),
                     "confusion_topics": c_data.get("confusion_topics", []),
@@ -324,7 +330,7 @@ async def generate_heatmap_data(class_name: str, date: str):
             for i, student in enumerate(valid_students_processed):
                 heatmap_data.append({
                     "student_id": student["student_id"],
-                    "name": student["name"],
+                    "name": "Anonymous Student" if student.get("is_anonymous") else student["name"],
                     "x": float(coords[i][0]),
                     "y": float(coords[i][1]),
                     "sentiment": student["sentiment"],
@@ -371,8 +377,8 @@ async def generate_cluster_summary(notes: list[str], pattern: str) -> str:
         Student notes:
         {notes_block}
 
-        Write a concise, 1-2 sentence synthesis summarizing exactly what these students are thinking or struggling with.
-        It should be easy for a teacher to read mid-class, but detailed enough to identify the specific nuance or tension in their understanding.
+        Write exactly two short sentences synthesizing what these students are thinking or struggling with.
+        It should be easy for a teacher to read mid-class, but detailed enough to identify the specific nuance or tension.
         Address the teacher directly (e.g., "Students are wondering about..."). No bullet points.
     """
 

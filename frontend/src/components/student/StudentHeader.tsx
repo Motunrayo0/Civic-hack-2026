@@ -1,3 +1,4 @@
+import { Eye, EyeOff } from 'lucide-react';
 import type { StudentInsights, StudentReflection } from '../../types';
 import PatternBadge from '../ui/PatternBadge';
 
@@ -5,9 +6,11 @@ interface StudentHeaderProps {
   greeting: string;
   insights: StudentInsights;
   reflections: StudentReflection[];
+  isAnonymous: boolean;
+  onToggleAnonymity: () => void;
 }
 
-export default function StudentHeader({ greeting, insights, reflections }: StudentHeaderProps) {
+export default function StudentHeader({ greeting, insights, reflections, isAnonymous, onToggleAnonymity }: StudentHeaderProps) {
   const sorted = [...reflections].sort(
     (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
   );
@@ -20,6 +23,21 @@ export default function StudentHeader({ greeting, insights, reflections }: Stude
       </div>
 
       <div className="flex items-center gap-3">
+        {/* Incognito Toggle */}
+        <button
+          onClick={onToggleAnonymity}
+          className={`flex items-center gap-2 px-3 py-2 rounded-2xl border transition-colors ${
+            isAnonymous
+              ? 'bg-slate-800 text-white border-slate-700'
+              : 'glass border-slate-100 text-gray-500 hover:bg-slate-50'
+          }`}
+        >
+          {isAnonymous ? <EyeOff size={14} /> : <Eye size={14} />}
+          <span className="text-xs font-medium">
+            {isAnonymous ? 'Incognito Mode' : 'Show Name'}
+          </span>
+        </button>
+
         {/* Thinking Timeline */}
         <div className="glass rounded-2xl px-4 py-2 flex items-center gap-2 border border-slate-100">
           <span className="text-xs text-gray-500">Recent timeline</span>

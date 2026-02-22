@@ -7,7 +7,7 @@ import ActiveLessonView from '../components/student/ActiveLessonView';
 import InsightsSidebar from '../components/student/InsightsSidebar';
 import FileUpload from '../components/student/FileUpload';
 import { COURSES, getInsightsForCourse } from '../data/mockData';
-import { getStudents, getAnalyzedStudentReflections } from '../services/api';
+import { getStudents, getAnalyzedStudentReflections, updateStudentAnonymity } from '../services/api';
 import type { Student, StudentReflection } from '../types';
 
 export default function EduPulse() {
@@ -67,6 +67,7 @@ export default function EduPulse() {
         const standardStudent: Student = {
           id: targetStudent._id,
           name: targetStudent.name,
+          isAnonymous: targetStudent.is_anonymous ?? false,
           courses: mappedCourses,
           reflections: mappedReflections,
           overallPattern: 'curiosity' // default
@@ -105,6 +106,17 @@ export default function EduPulse() {
     );
   }
 
+  const handleToggleAnonymity = async () => {
+    const newValue = !currentStudent.isAnonymous;
+    setCurrentStudent({ ...currentStudent, isAnonymous: newValue });
+    try {
+      await updateStudentAnonymity(currentStudent.id, newValue);
+    } catch (err) {
+      console.error('Failed to update anonymity:', err);
+      setCurrentStudent({ ...currentStudent, isAnonymous: !newValue });
+    }
+  };
+
   const studentCourses = COURSES.filter(c => currentStudent.courses.includes(c.code));
   const currentCourseData = COURSES.find(c => c.code === activeCourse);
 
@@ -126,7 +138,7 @@ export default function EduPulse() {
       </nav>
 
       <main className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 py-4 md:py-6">
-        <StudentHeader greeting={currentStudent.name} insights={insights} reflections={courseReflections} />
+        <StudentHeader greeting={currentStudent.name} insights={insights} reflections={courseReflections} isAnonymous={currentStudent.isAnonymous ?? false} onToggleAnonymity={handleToggleAnonymity} />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
           {/* Main content */}

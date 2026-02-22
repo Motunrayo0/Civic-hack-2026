@@ -117,7 +117,7 @@ export default function ClassroomPulse() {
               newReflections.push({
                 id: `r_${student._id}_${date}`,
                 studentId: student._id,
-                studentName: student.name,
+                studentName: student.is_anonymous ? 'Anonymous Student' : student.name,
                 content: noteData.notes,
                 pattern: pattern as any,
                 timestamp: new Date(date).toISOString(),
