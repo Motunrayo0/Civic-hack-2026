@@ -10,7 +10,7 @@ export default function Landing() {
       <GatewayActions />
 
       <footer className="mt-auto pt-12 text-xs text-gray-400">
-        Surfaced &mdash; making student thinking visible
+        Noesis &mdash; making student thinking visible
       </footer>
     </div>
   );

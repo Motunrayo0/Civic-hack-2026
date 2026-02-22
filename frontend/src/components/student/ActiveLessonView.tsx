@@ -33,8 +33,7 @@ export default function ActiveLessonView({ course, reflections }: ActiveLessonVi
           <span className="text-xs font-medium text-indigo-primary">AI Synthesis</span>
         </div>
         <p className="text-sm text-gray-600 leading-relaxed pt-4">
-          The class is exploring themes of <strong>gravitational collapse, spacetime curvature, and the nature of singularities</strong> in this topic.
-          Key tensions have surfaced around whether information is truly destroyed at the event horizon or preserved in some form.
+          The class is exploring themes of what defines life, the properties of living organisms, and the role of energy in sustaining life. Key tensions have emerged around whether objects like stars and the sun — which have lifecycles and provide energy — should be considered alive, or if strict biological criteria like reproduction and homeostasis exclude them.
         </p>
       </div>
 

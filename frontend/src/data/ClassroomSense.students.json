@@ -1,242 +1,98 @@
 [
   {
     "_id": {
-      "$oid": "699a10f6051dd2f66ec9e794"
+      "$oid": "67ba10f6051dd2f66ec9f001"
     },
-    "name": "Elena Hews",
+    "name": "Mia T.",
     "classes": {
-      "Astrophysics_AST301": {
+      "LifeScience_SCI201": {
         "2026-02-21": {
-          "topic": "Event Horizon Mechanics",
-          "notes": "I'm confused about the event horizon. If nothing escapes, then how does Hawking radiation work? Doesn't that violate the boundary?"
+          "topic": "Energy & Life",
+          "notes": "What about energy? We can say energy moves from place to place and since it's not destroyed, it has life? That's a really interesting way to think about it."
         }
       }
     }
   },
   {
     "_id": {
-      "$oid": "699a11c0051dd2f66ec9e796"
+      "$oid": "67ba10f6051dd2f66ec9f002"
     },
-    "name": "Aria V.",
+    "name": "Sia K.",
     "classes": {
-      "Astrophysics_AST301": {
+      "LifeScience_SCI201": {
         "2026-02-21": {
-          "topic": "Time Dilation",
-          "notes": "I'm lost on time dilation near the black hole. Why does time stop for an outside observer but proceed normally for someone falling in?"
+          "topic": "Properties of Life",
+          "notes": "What about the stars? They have life cycles, are 'born,' but also die at the end of their life cycle. Does that make them alive?"
         }
       }
     }
   },
   {
     "_id": {
-      "$oid": "699a11c0051dd2f66ec9e797"
+      "$oid": "67ba10f6051dd2f66ec9f003"
     },
-    "name": "Blake S.",
+    "name": "Leo W.",
     "classes": {
-      "Astrophysics_AST301": {
+      "LifeScience_SCI201": {
         "2026-02-21": {
-          "topic": "Tidal Forces",
-          "notes": "The concept of spaghettification makes total sense now! Because gravity follows an inverse-square law, the tidal forces stretch an object out."
+          "topic": "Properties of Life",
+          "notes": "Stars have lifecycles. Sun is a star. If stars are alive, then the sun is alive? That doesn't feel right but I can't explain why."
         }
       }
     }
   },
   {
     "_id": {
-      "$oid": "699a11c0051dd2f66ec9e798"
+      "$oid": "67ba10f6051dd2f66ec9f004"
     },
-    "name": "Charlie D.",
+    "name": "Nora B.",
     "classes": {
-      "Astrophysics_AST301": {
+      "LifeScience_SCI201": {
         "2026-02-21": {
-          "topic": "The Singularity",
-          "notes": "What exactly happens at the singularity? Do the laws of physics just stop acting entirely, or is there a unified theory we just haven't found?"
+          "topic": "Living vs Nonliving",
+          "notes": "Sun is nonliving but gives life. A rocking horse is nonliving but doesn't give life. So there are different kinds of nonliving things!"
         }
       }
     }
   },
   {
     "_id": {
-      "$oid": "699a11c0051dd2f66ec9e799"
+      "$oid": "67ba10f6051dd2f66ec9f005"
     },
-    "name": "Dani L.",
+    "name": "Omar F.",
     "classes": {
-      "Astrophysics_AST301": {
+      "LifeScience_SCI201": {
         "2026-02-21": {
-          "topic": "General Relativity",
-          "notes": "Understanding General Relativity really helped clarify how mass curves spacetime. The geometry of the universe is fascinating."
+          "topic": "Properties of Life",
+          "notes": "Living things must grow and reproduce. The sun doesn't reproduce, so it's definitely not alive by that definition."
         }
       }
     }
   },
   {
     "_id": {
-      "$oid": "699a11c0051dd2f66ec9e79a"
+      "$oid": "67ba10f6051dd2f66ec9f006"
     },
-    "name": "Emerson J.",
+    "name": "Ruby H.",
     "classes": {
-      "Astrophysics_AST301": {
+      "LifeScience_SCI201": {
         "2026-02-21": {
-          "topic": "Information Paradox",
-          "notes": "I'm confused about the information paradox. If black holes evaporate completely, where does all the quantum information of what fell in go?"
+          "topic": "Properties of Life",
+          "notes": "The sun changes over time, but not in the same way organisms do. It doesn't respond to stimuli or maintain homeostasis."
         }
       }
     }
   },
   {
     "_id": {
-      "$oid": "699a11c0051dd2f66ec9e79b"
+      "$oid": "67ba10f6051dd2f66ec9f007"
     },
-    "name": "Finn K.",
+    "name": "Zain A.",
     "classes": {
-      "Astrophysics_AST301": {
+      "LifeScience_SCI201": {
         "2026-02-21": {
-          "topic": "Hawking Radiation",
-          "notes": "Hawking radiation is brilliant. Virtual particle pairs forming at the horizon, one falls in, the other escapes, effectively draining mass. Wow."
-        }
-      }
-    }
-  },
-  {
-    "_id": {
-      "$oid": "699a11c0051dd2f66ec9e79c"
-    },
-    "name": "Gale M.",
-    "classes": {
-      "Astrophysics_AST301": {
-        "2026-02-21": {
-          "topic": "Event Horizon Mechanics",
-          "notes": "Why can't light escape? I thought photons didn't have mass. How can gravity pull on something that is massless?"
-        }
-      }
-    }
-  },
-  {
-    "_id": {
-      "$oid": "699a11c0051dd2f66ec9e79d"
-    },
-    "name": "Hollis R.",
-    "classes": {
-      "Astrophysics_AST301": {
-        "2026-02-21": {
-          "topic": "Event Horizon Mechanics",
-          "notes": "The escape velocity equation makes it perfectly clear. When the required velocity exceeds c, not even light can get out. Simple math, wild concept."
-        }
-      }
-    }
-  },
-  {
-    "_id": {
-      "$oid": "699a11c0051dd2f66ec9e79e"
-    },
-    "name": "Indi P.",
-    "classes": {
-      "Astrophysics_AST301": {
-        "2026-02-21": {
-          "topic": "Photon Sphere",
-          "notes": "I want to know more about the photon sphere. If you stood there, could you literally see the back of your own head?"
-        }
-      }
-    }
-  },
-  {
-    "_id": {
-      "$oid": "699a11c0051dd2f66ec9e79f"
-    },
-    "name": "Jordan T.",
-    "classes": {
-      "Astrophysics_AST301": {
-        "2026-02-21": {
-          "topic": "The Singularity",
-          "notes": "Is it possible for a wormhole to exist inside a rotating Kerr black hole? Could the ring singularity act as a bridge?"
-        }
-      }
-    }
-  },
-  {
-    "_id": {
-      "$oid": "699a11c0051dd2f66ec9e7a0"
-    },
-    "name": "Kai B.",
-    "classes": {
-      "Astrophysics_AST301": {
-        "2026-02-21": {
-          "topic": "Supermassive Black Holes",
-          "notes": "I read that supermassive black holes might actually be less dense than water. How does that volume-to-mass ratio even work?"
-        }
-      }
-    }
-  },
-  {
-    "_id": {
-      "$oid": "699a11c0051dd2f66ec9e7a1"
-    },
-    "name": "Lennon W.",
-    "classes": {
-      "Astrophysics_AST301": {
-        "2026-02-21": {
-          "topic": "Event Horizon Mechanics",
-          "notes": "If gravitational waves propagate at the speed of light, what happens to them extremely close to the event horizon?"
-        }
-      }
-    }
-  },
-  {
-    "_id": {
-      "$oid": "699a121f051dd2f66ec9e7a3"
-    },
-    "name": "Elena Hews",
-    "classes": {
-      "Statistics_MATH201": {
-        "2026-02-21": {
-          "topic": "Central Limit Theorem",
-          "notes": "I don't get why the distribution becomes normal as the sample size increases. Why 30? Is that a magic number?"
-        }
-      },
-      "Astrophysics_AST301": {
-        "2026-02-21": {
-          "topic": "General Relativity",
-          "notes": "I'm really struggling to visualize the bending of spacetime in 3D. The rubber sheet analogy just isn't cutting it for me anymore."
-        }
-      }
-    }
-  },
-  {
-    "_id": {
-      "$oid": "699a121f051dd2f66ec9e7a4"
-    },
-    "name": "Casey Rivera",
-    "classes": {
-      "Statistics_MATH201": {
-        "2026-02-21": {
-          "topic": "Central Limit Theorem",
-          "notes": "The CLT is fascinating because it allows us to make inferences about a population even if the population isn't normal."
-        }
-      },
-      "Astrophysics_AST301": {
-        "2026-02-21": {
-          "topic": "Event Horizon Mechanics",
-          "notes": "Understanding the Schwarzschild radius helped pull everything together. It defines exactly where that point of no return is."
-        }
-      }
-    }
-  },
-  {
-    "_id": {
-      "$oid": "699a121f051dd2f66ec9e7a5"
-    },
-    "name": "Sam Taylor",
-    "classes": {
-      "Statistics_MATH201": {
-        "2026-02-21": {
-          "topic": "Central Limit Theorem",
-          "notes": "I'm totally stuck. How do we calculate the standard error again? The formula is confusing me."
-        }
-      },
-      "Astrophysics_AST301": {
-        "2026-02-21": {
-          "topic": "Stellar Collapse",
-          "notes": "Wait, so if a star collapses, does the gravity actually increase, or does it just get more concentrated? I don't follow."
+          "topic": "Energy & Life",
+          "notes": "If we said everything that provides energy for life is alive, then we'd have to say food is alive too. That breaks the whole definition."
         }
       }
     }

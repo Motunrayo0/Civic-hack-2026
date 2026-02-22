@@ -25,11 +25,20 @@ export const COURSES: Course[] = [
     totalStudents: 0,
     recentTopic: 'Telescope Optics',
   },
+  {
+    id: 'c4',
+    code: 'LifeScience_SCI201',
+    name: 'Life Science',
+    teacher: 'Ms. Priya Nair',
+    totalStudents: 10,
+    recentTopic: 'Living vs Nonliving',
+  },
 ];
 
 export const TEACHERS: Teacher[] = [
   { id: 't1', name: 'Dr. Eleanor Vance', classesTaught: ['Astrophysics_AST301', 'ObservationalAstronomy_AST101'] },
   { id: 't2', name: 'Prof. Marcus Halloway', classesTaught: ['Statistics_MATH201'] },
+  { id: 't3', name: 'Ms. Priya Nair', classesTaught: ['LifeScience_SCI201'] },
 ];
 
 export const REFLECTIONS: StudentReflection[] = [
@@ -205,6 +214,97 @@ export const REFLECTIONS: StudentReflection[] = [
     timestamp: '2026-02-21T11:10:00Z',
     topic: 'Central Limit Theorem',
   },
+  // Life Science reflections — Living vs Nonliving
+  {
+    id: 'r20',
+    studentId: 's16',
+    studentName: 'Jonathan Simon',
+    content: "What does 'living' actually mean? The sun is nonliving, right? But plants need the sun to grow. If the sun helps living things survive, how can it be completely nonliving?",
+    pattern: 'curiosity',
+    timestamp: '2026-02-21T13:00:00Z',
+    topic: 'Living vs Nonliving',
+  },
+  {
+    id: 'r21',
+    studentId: 's17',
+    studentName: 'Molly R.',
+    content: "We have to have water even though water is not living... we still need it like plants need the sun.",
+    pattern: 'curiosity',
+    timestamp: '2026-02-21T13:03:00Z',
+    topic: 'Living vs Nonliving',
+  },
+  {
+    id: 'r22',
+    studentId: 's18',
+    studentName: 'Lia M.',
+    content: "Life as in, something is living or nonliving? I'm confused about the difference between something having life and something supporting life.",
+    pattern: 'confusion',
+    timestamp: '2026-02-21T13:05:00Z',
+    topic: 'Living vs Nonliving',
+  },
+  {
+    id: 'r23',
+    studentId: 's19',
+    studentName: 'Mia T.',
+    content: "What about energy? We can say energy moves from place to place and since it's not destroyed, it has life? That's a really interesting way to think about it.",
+    pattern: 'curiosity',
+    timestamp: '2026-02-21T13:08:00Z',
+    topic: 'Energy & Life',
+  },
+  {
+    id: 'r24',
+    studentId: 's20',
+    studentName: 'Sia K.',
+    content: "What about the stars? They have life cycles, are 'born,' but also die at the end of their life cycle. Does that make them alive?",
+    pattern: 'curiosity',
+    timestamp: '2026-02-21T13:10:00Z',
+    topic: 'Properties of Life',
+  },
+  {
+    id: 'r25',
+    studentId: 's21',
+    studentName: 'Leo W.',
+    content: "Stars have lifecycles. Sun is a star. If stars are alive, then the sun is alive? That doesn't feel right but I can't explain why.",
+    pattern: 'confusion',
+    timestamp: '2026-02-21T13:12:00Z',
+    topic: 'Properties of Life',
+  },
+  {
+    id: 'r26',
+    studentId: 's22',
+    studentName: 'Nora B.',
+    content: "Sun is nonliving but gives life. A rocking horse is nonliving but doesn't give life. So there are different kinds of nonliving things!",
+    pattern: 'clarity',
+    timestamp: '2026-02-21T13:15:00Z',
+    topic: 'Living vs Nonliving',
+  },
+  {
+    id: 'r27',
+    studentId: 's23',
+    studentName: 'Omar F.',
+    content: "Living things must grow and reproduce. The sun doesn't reproduce, so it's definitely not alive by that definition.",
+    pattern: 'clarity',
+    timestamp: '2026-02-21T13:18:00Z',
+    topic: 'Properties of Life',
+  },
+  {
+    id: 'r28',
+    studentId: 's24',
+    studentName: 'Ruby H.',
+    content: "The sun changes over time, but not in the same way organisms do. It doesn't respond to stimuli or maintain homeostasis.",
+    pattern: 'clarity',
+    timestamp: '2026-02-21T13:20:00Z',
+    topic: 'Properties of Life',
+  },
+  {
+    id: 'r29',
+    studentId: 's25',
+    studentName: 'Zain A.',
+    content: "If we said everything that provides energy for life is alive, then we'd have to say food is alive too. That breaks the whole definition.",
+    pattern: 'curiosity',
+    timestamp: '2026-02-21T13:22:00Z',
+    topic: 'Energy & Life',
+  },
 ];
 
 export const STUDENTS: Student[] = [
@@ -223,6 +323,16 @@ export const STUDENTS: Student[] = [
   { id: 's13', name: 'Lennon W.', courses: ['Astrophysics_AST301'], reflections: REFLECTIONS.filter(r => r.studentId === 's13'), overallPattern: 'curiosity' },
   { id: 's14', name: 'Casey Rivera', courses: ['Astrophysics_AST301', 'Statistics_MATH201'], reflections: REFLECTIONS.filter(r => r.studentId === 's14'), overallPattern: 'clarity' },
   { id: 's15', name: 'Sam Taylor', courses: ['Astrophysics_AST301', 'Statistics_MATH201'], reflections: REFLECTIONS.filter(r => r.studentId === 's15'), overallPattern: 'confusion' },
+  { id: 's16', name: 'Jonathan Simon', courses: ['LifeScience_SCI201'], reflections: REFLECTIONS.filter(r => r.studentId === 's16'), overallPattern: 'curiosity' },
+  { id: 's17', name: 'Molly R.', courses: ['LifeScience_SCI201'], reflections: REFLECTIONS.filter(r => r.studentId === 's17'), overallPattern: 'curiosity' },
+  { id: 's18', name: 'Lia M.', courses: ['LifeScience_SCI201'], reflections: REFLECTIONS.filter(r => r.studentId === 's18'), overallPattern: 'confusion' },
+  { id: 's19', name: 'Mia T.', courses: ['LifeScience_SCI201'], reflections: REFLECTIONS.filter(r => r.studentId === 's19'), overallPattern: 'curiosity' },
+  { id: 's20', name: 'Sia K.', courses: ['LifeScience_SCI201'], reflections: REFLECTIONS.filter(r => r.studentId === 's20'), overallPattern: 'curiosity' },
+  { id: 's21', name: 'Leo W.', courses: ['LifeScience_SCI201'], reflections: REFLECTIONS.filter(r => r.studentId === 's21'), overallPattern: 'confusion' },
+  { id: 's22', name: 'Nora B.', courses: ['LifeScience_SCI201'], reflections: REFLECTIONS.filter(r => r.studentId === 's22'), overallPattern: 'clarity' },
+  { id: 's23', name: 'Omar F.', courses: ['LifeScience_SCI201'], reflections: REFLECTIONS.filter(r => r.studentId === 's23'), overallPattern: 'clarity' },
+  { id: 's24', name: 'Ruby H.', courses: ['LifeScience_SCI201'], reflections: REFLECTIONS.filter(r => r.studentId === 's24'), overallPattern: 'clarity' },
+  { id: 's25', name: 'Zain A.', courses: ['LifeScience_SCI201'], reflections: REFLECTIONS.filter(r => r.studentId === 's25'), overallPattern: 'curiosity' },
 ];
 
 export const TOPIC_CLUSTERS: TopicCluster[] = [
@@ -232,6 +342,9 @@ export const TOPIC_CLUSTERS: TopicCluster[] = [
   { id: 'tc4', label: 'Central Limit Theorem', pattern: 'confusion', count: 3, x: 75, y: 70, size: 55 },
   { id: 'tc5', label: "Hawking Radiation", pattern: 'clarity', count: 3, x: 20, y: 60, size: 50 },
   { id: 'tc6', label: 'Dark Matter vs Energy', pattern: 'curiosity', count: 2, x: 50, y: 25, size: 45 },
+  { id: 'tc7', label: 'Living vs Nonliving', pattern: 'curiosity', count: 4, x: 35, y: 80, size: 75 },
+  { id: 'tc8', label: 'Properties of Life', pattern: 'clarity', count: 4, x: 60, y: 15, size: 70 },
+  { id: 'tc9', label: 'Energy & Life', pattern: 'curiosity', count: 2, x: 80, y: 50, size: 50 },
 ];
 
 export function getInsightsForCourse(courseCode: string): StudentInsights {

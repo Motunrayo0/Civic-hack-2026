@@ -1,49 +1,27 @@
 [
   {
     "_id": {
-      "$oid": "699a2508051dd2f66ec9e7b3"
+      "$oid": "67b973c15f9a2e41c8d1a2c6"
     },
-    "teacher_name": "Dr. Eleanor Vance",
+    "teacher_name": "Ms. Priya Nair",
     "classes_taught": [
       {
-        "class_name": "Astrophysics_AST301",
+        "class_name": "LifeScience_SCI201",
         "topics": [
           {
-            "title": "Event Horizon Mechanics",
-            "description": "Analyzing behavior of matter and light near black holes..."
+            "title": "Living vs Nonliving",
+            "description": "Exploring what defines life and how nonliving things can still support living organisms."
           },
           {
-            "title": "The Singularity",
-            "description": "Exploring gravitational collapse and infinite density..."
+            "title": "Properties of Life",
+            "description": "Identifying the key characteristics that separate living organisms from nonliving matter."
+          },
+          {
+            "title": "Energy & Life",
+            "description": "Understanding the role of energy transfer in sustaining living systems."
           }
         ],
-        "raw_text": "Full text of the curriculum document goes here..."
-      }
-    ]
-  },
-  {
-    "_id": {
-      "$oid": "67b973c15f9a2e41c8d1a2b5"
-    },
-    "teacher_name": "Dr. Elena Vance",
-    "classes_taught": [
-      {
-        "class_name": "Genetics_BIO201",
-        "topics": [
-          {
-            "title": "Mendelian Inheritance",
-            "description": "Understanding Punnett squares, dominant vs. recessive traits, and phenotypic ratios."
-          },
-          {
-            "title": "CRISPR and Gene Editing",
-            "description": "Exploring the mechanisms of Cas9 and the ethical implications of modern biotechnology."
-          },
-          {
-            "title": "DNA Replication",
-            "description": "Analyzing the roles of helicase, polymerase, and ligase in the cellular reproduction cycle."
-          }
-        ],
-        "raw_text": "This course provides an introduction to modern genetics. We will cover classical Mendelian laws before transitioning into advanced molecular biology, including DNA replication and the revolutionary CRISPR-Cas9 gene editing technology. Students are expected to complete lab work on fruit fly inheritance patterns."
+        "raw_text": "This course introduces students to foundational life science concepts. We begin by exploring the distinction between living and nonliving things, examining edge cases like the sun and stars that challenge simple classifications. Students will learn the properties of life including growth, reproduction, response to stimuli, and homeostasis."
       }
     ]
   }

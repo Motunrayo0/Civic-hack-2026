@@ -1,3 +1,11 @@
+import sys
+from pathlib import Path
+
+# Ensure the app/ directory is on the Python path so that imports like
+# `from models.students import ...` work both locally (fastapi dev) and
+# on Render (uvicorn app.main:app).
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from models.students import upload_student_note, get_students, delete_student_note
@@ -12,7 +20,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,  # type: ignore
-    allow_origins=["http://localhost:5173", "http://localhost:3000", "https://civic-hack-2026.onrender.com", "https://civic-hack-2026.vercel.app"],
+    allow_origins=["http://localhost:5173", "http://localhost:3000", "https://backend-nameless-water-8100.fly.dev", "https://civic-hack-2026.vercel.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
