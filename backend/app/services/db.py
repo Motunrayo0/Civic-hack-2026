@@ -8,8 +8,9 @@ from pathlib import Path
 
 load_dotenv()
 
-# MongoDB connection
-client = AsyncIOMotorClient(os.getenv("MONGO_URI", "mongodb://localhost:27017"))
+# Centralized async database connection using Motor
+import certifi
+client = AsyncIOMotorClient(os.getenv("MONGO_URI", "mongodb://localhost:27017"), tlsCAFile=certifi.where())
 db = client["ClassroomSense"]
 
 async def seed_students_from_json():

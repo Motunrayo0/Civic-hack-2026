@@ -1,6 +1,7 @@
 import datetime
 import io
 import asyncio
+import os
 from fastapi import UploadFile, File, Form
 from docx import Document
 from dotenv import load_dotenv
@@ -45,3 +46,43 @@ async def upload_student_note(
         upsert=True
     )
     return {"status": "success", "message": f"Doc uploaded for {student_name}."}
+
+async def get_students():
+    # Use the ClassroomSense database as requested
+    from motor.motor_asyncio import AsyncIOMotorClient
+    import certifi
+    client = AsyncIOMotorClient(os.getenv("MONGO_URI", "mongodb://localhost:27017"), tlsCAFile=certifi.where())
+    classroom_sense_db = client["ClassroomSense"]
+    
+    # Exclude embeddings from being returned directly to frontend mapping
+    students_cursor = classroom_sense_db.students.find({}, { "embedding": 0 })
+    students = await students_cursor.to_list(length=None)
+    
+    # Convert MongoDB ObjectIds to strings
+    for student in students:
+        student["_id"] = str(student["_id"])
+        
+    return students
+
+async def delete_student_note(student_id: str, class_name: str, date: str):
+    from motor.motor_asyncio import AsyncIOMotorClient
+    import certifi
+    from bson.objectid import ObjectId
+    
+    client = AsyncIOMotorClient(os.getenv("MONGO_URI", "mongodb://localhost:27017"), tlsCAFile=certifi.where())
+    classroom_sense_db = client["ClassroomSense"]
+    
+    try:
+        obj_id = ObjectId(student_id)
+    except Exception:
+        return {"status": "error", "message": "Invalid student ID."}
+        
+    result = await classroom_sense_db.students.update_one(
+        {"_id": obj_id},
+        {"$unset": {f"classes.{class_name}.{date}": ""}}
+    )
+    
+    if result.modified_count > 0:
+        return {"status": "success", "message": "Note deleted successfully."}
+    else:
+        return {"status": "success", "message": "Note not found."}

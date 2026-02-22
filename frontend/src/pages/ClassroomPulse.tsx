@@ -1,98 +1,53 @@
 import { useState, useEffect } from 'react';
 import { ArrowLeft, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import LivePulseCanvas from '../components/teacher/LivePulseCanvas';
 import LiveReflectionFeed from '../components/teacher/LiveReflectionFeed';
 import AnalyticsSidebar from '../components/teacher/AnalyticsSidebar';
-import TopicClusterModal from '../components/modals/TopicClusterModal';
-import type { TopicCluster, StudentReflection } from '../types';
-import { getClassroomHeatmap } from '../services/api';
+import StudentJourneyModal from '../components/teacher/StudentJourneyModal';
+import type { StudentReflection } from '../types';
+import { getStudents } from '../services/api';
 
 export default function ClassroomPulse() {
   const navigate = useNavigate();
-  const [selectedCluster, setSelectedCluster] = useState<TopicCluster | null>(null);
 
   const [reflections, setReflections] = useState<StudentReflection[]>([]);
-  const [clusters, setClusters] = useState<TopicCluster[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [selectedStudentId, setSelectedStudentId] = useState<string | null>(null);
 
   // We are hardcoding the course and date for the hackathon demo
   const courseCode = 'Shakespeare_ENG302';
-  const todayDate = new Date().toISOString().split('T')[0];
 
   useEffect(() => {
     async function loadData() {
       try {
         setIsLoading(true);
-        const data = await getClassroomHeatmap(courseCode, todayDate);
+        const studentsData = await getStudents();
 
         const newReflections: StudentReflection[] = [];
-        const clusterMap = new Map<number, any>();
 
-        data.forEach((studentNode: any) => {
-          // 1. Map to reflection
-          const patternMap: Record<string, any> = {
-            'CONFUSION': 'confusion',
-            'UNANSWERED_QUESTION': 'curiosity',
-            'UNDERSTOOD': 'clarity'
-          };
-
-          // Try to extract a topic string or fallback
-          const mainTopic = studentNode.confusion_topics && studentNode.confusion_topics.length > 0
-            ? studentNode.confusion_topics[0].topic
-            : 'General Discussion';
-
-          newReflections.push({
-            id: `r_${studentNode.student_id}`,
-            studentId: studentNode.student_id,
-            studentName: studentNode.name,
-            content: mainTopic, // Or actual notes if your backend returned them
-            pattern: patternMap[studentNode.sentiment] || 'wonder',
-            timestamp: new Date().toISOString(),
-            topic: mainTopic
-          });
-
-          // 2. Aggregate clusters
-          const cid = studentNode.cluster;
-          if (cid !== -1) { // Ignore noise
-            if (!clusterMap.has(cid)) {
-              clusterMap.set(cid, {
-                id: `tc_${cid}`,
-                label: mainTopic,
-                pattern: patternMap[studentNode.sentiment] || 'confusion',
-                count: 0,
-                xSum: 0,
-                ySum: 0
+        studentsData.forEach(student => {
+          if (student.classes && student.classes[courseCode]) {
+            const classData = student.classes[courseCode];
+            Object.entries(classData).forEach(([date, noteData]) => {
+              newReflections.push({
+                id: `r_${student._id}_${date}`,
+                studentId: student._id,
+                studentName: student.name,
+                content: noteData.notes,
+                pattern: 'wonder', // Defaulting to wonder without the AI heatmap sentiment analysis
+                timestamp: new Date(date).toISOString(),
+                topic: noteData.topic || 'General Discussion',
+                className: courseCode
               });
-            }
-            const c = clusterMap.get(cid);
-            c.count += 1;
-            c.xSum += studentNode.x;
-            c.ySum += studentNode.y;
+            });
           }
         });
 
-        const newClusters: TopicCluster[] = Array.from(clusterMap.values()).map(c => {
-          // Normalize X and Y from PCA space (-1 to 1 perhaps?) to 0-100% for canvas
-          // This is a naive clamp/scale for the demo
-          const boundedX = Math.min(Math.max((c.xSum / c.count) * 30 + 50, 10), 90);
-          const boundedY = Math.min(Math.max((c.ySum / c.count) * 30 + 50, 10), 90);
-
-          return {
-            id: c.id,
-            label: c.label,
-            pattern: c.pattern,
-            count: c.count,
-            x: boundedX,
-            y: boundedY,
-            size: Math.min(40 + (c.count * 10), 120) // min size 50, scales up
-          };
-        });
-
         setReflections(newReflections);
-        setClusters(newClusters);
-      } catch (e) {
-        console.error("Failed to load heatmap", e);
+      } catch (e: any) {
+        console.error("Failed to load students data", e);
+        setError(e.message || "Failed to connect to the backend API.");
       } finally {
         setIsLoading(false);
       }
@@ -100,8 +55,29 @@ export default function ClassroomPulse() {
     loadData();
   }, []);
 
-  const handleSelectStudentId = () => {
-    // Disabled manual student lookup mapping for time constraints
+  const handleSelectStudentId = (studentId: string) => {
+    setSelectedStudentId(studentId);
+  };
+
+  const handleDeleteNote = async (reflection: StudentReflection) => {
+    try {
+      if (!reflection.className) {
+        throw new Error("Cannot delete note without a valid class name.");
+      }
+
+      // Parse out the date from the ID (format: r_{studentId}_{date})
+      const parts = reflection.id.split('_');
+      // Reconstruct the date part, joining remaining parts in case the date contains underscores
+      const dateStr = parts.slice(2).join('_');
+
+      await import('../services/api').then(m => m.deleteNote(reflection.studentId, reflection.className!, dateStr));
+
+      // Remove from UI state to update optimistically
+      setReflections(prev => prev.filter(r => r.id !== reflection.id));
+    } catch (e: any) {
+      console.error("Failed to delete note", e);
+      alert(`Error deleting note: ${e.message}`);
+    }
   };
 
   return (
@@ -127,16 +103,14 @@ export default function ClassroomPulse() {
           </p>
         </div>
 
-        {/* Live Pulse Canvas - full width */}
-        <div className="mb-8 md:mb-12">
-          {!isLoading && clusters.length === 0 ? (
-            <div className="w-full h-[400px] flex items-center justify-center border-2 border-dashed border-slate-200 rounded-3xl text-gray-400">
-              Awaiting student reflections...
+        {error && (
+          <div className="mb-8 md:mb-12">
+            <div className="w-full py-8 flex flex-col items-center justify-center border-2 border-dashed border-rose-200 bg-rose-50/50 rounded-3xl text-rose-500">
+              <span className="font-semibold mb-2">Error Loading Data</span>
+              <span className="text-sm">{error}</span>
             </div>
-          ) : (
-            <LivePulseCanvas clusters={clusters} onSelectCluster={setSelectedCluster} />
-          )}
-        </div>
+          </div>
+        )}
 
         {/* Feed + Analytics */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-10">
@@ -144,6 +118,7 @@ export default function ClassroomPulse() {
             <LiveReflectionFeed
               reflections={reflections}
               onSelectStudent={handleSelectStudentId}
+              onDeleteNote={handleDeleteNote}
             />
           </div>
           <div>
@@ -152,14 +127,12 @@ export default function ClassroomPulse() {
         </div>
       </main>
 
-      {/* Student Journey Modal (Disabled for hackathon) */}
-
-      {/* Topic Cluster Modal */}
-      {selectedCluster && (
-        <TopicClusterModal
-          cluster={selectedCluster}
-          reflections={reflections}
-          onClose={() => setSelectedCluster(null)}
+      {/* Student Journey Modal */}
+      {selectedStudentId && (
+        <StudentJourneyModal
+          studentName={reflections.find(r => r.studentId === selectedStudentId)?.studentName || 'Student'}
+          reflections={reflections.filter(r => r.studentId === selectedStudentId)}
+          onClose={() => setSelectedStudentId(null)}
         />
       )}
     </div>
