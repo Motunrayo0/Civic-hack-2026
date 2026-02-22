@@ -138,7 +138,7 @@ async def generate_heatmap_data(class_name: str, date: str):
 def get_single_embedding(text: str):
     # This is kept for backwards compatibility if needed, but we recommend await generate_embedding
     embedding = genai.embed_content(
-        model="models/text-embedding-004",
+        model="gemini-embedding-001",
         content=text,
         task_type="clustering"
     )
