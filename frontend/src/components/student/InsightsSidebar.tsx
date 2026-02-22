@@ -25,8 +25,8 @@ export default function InsightsSidebar({ insights, reflections }: InsightsSideb
   return (
     <div className="space-y-4">
       {/* Pattern distribution */}
-      <Card>
-        <div className="flex items-center gap-2 mb-4">
+      <Card className="mt-8">
+        <div className="flex items-center gap-2 mb-3">
           <TrendingUp size={16} className="text-indigo-primary" />
           <h3 className="text-sm font-semibold text-gray-900">Learning Patterns</h3>
         </div>

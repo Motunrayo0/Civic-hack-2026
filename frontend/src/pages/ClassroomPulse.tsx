@@ -5,11 +5,14 @@ import LivePulseCanvas from '../components/teacher/LivePulseCanvas';
 import LiveReflectionFeed from '../components/teacher/LiveReflectionFeed';
 import AnalyticsSidebar from '../components/teacher/AnalyticsSidebar';
 import StudentJourneyModal from '../components/modals/StudentJourneyModal';
+import TopicClusterModal from '../components/modals/TopicClusterModal';
+import type { TopicCluster } from '../types';
 import { REFLECTIONS, STUDENTS } from '../data/mockData';
 
 export default function ClassroomPulse() {
   const navigate = useNavigate();
   const [selectedStudentId, setSelectedStudentId] = useState<string | null>(null);
+  const [selectedCluster, setSelectedCluster] = useState<TopicCluster | null>(null);
 
   const selectedStudent = selectedStudentId
     ? STUDENTS.find(s => s.id === selectedStudentId)
@@ -24,7 +27,6 @@ export default function ClassroomPulse() {
             <ArrowLeft size={16} />
             <span className="font-serif text-lg text-gray-900">Surfaced</span>
           </button>
-          <span className="text-xs text-gray-400">Teacher View</span>
         </div>
       </nav>
 
@@ -38,7 +40,7 @@ export default function ClassroomPulse() {
 
         {/* Live Pulse Canvas - full width */}
         <div className="mb-8 md:mb-12">
-          <LivePulseCanvas />
+          <LivePulseCanvas onSelectCluster={setSelectedCluster} />
         </div>
 
         {/* Feed + Analytics */}
@@ -60,6 +62,15 @@ export default function ClassroomPulse() {
         <StudentJourneyModal
           student={selectedStudent}
           onClose={() => setSelectedStudentId(null)}
+        />
+      )}
+
+      {/* Topic Cluster Modal */}
+      {selectedCluster && (
+        <TopicClusterModal
+          cluster={selectedCluster}
+          reflections={REFLECTIONS}
+          onClose={() => setSelectedCluster(null)}
         />
       )}
     </div>

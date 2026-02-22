@@ -13,8 +13,8 @@ export default function ActiveLessonView({ course, reflections }: ActiveLessonVi
   const latestReflection = topicReflections[topicReflections.length - 1];
 
   return (
-    <Card className="mb-6">
-      <div className="flex items-start justify-between mb-4">
+    <Card className="mb-4">
+      <div className="flex items-start justify-between mb-3">
         <div>
           <p className="text-xs text-gray-400 font-mono">{course.code}</p>
           <h2 className="font-serif text-2xl text-gray-900 mt-1">{course.recentTopic}</h2>
@@ -26,12 +26,12 @@ export default function ActiveLessonView({ course, reflections }: ActiveLessonVi
       </div>
 
       {/* AI Summary */}
-      <div className="glass rounded-2xl p-4 border border-slate-100 mb-4">
+      <div className="glass rounded-2xl p-3 border border-slate-100 mb-3">
         <div className="flex items-center gap-2 mb-2">
           <Sparkles size={14} className="text-indigo-primary" />
           <span className="text-xs font-medium text-indigo-primary">AI Synthesis</span>
         </div>
-        <p className="text-sm text-gray-600 leading-relaxed">
+        <p className="text-sm text-gray-600 leading-relaxed pt-4">
           The class is exploring themes of <strong>indecision, moral paralysis, and the nature of action</strong> in this topic.
           Key tensions have surfaced around whether hesitation reveals weakness or philosophical depth.
         </p>

@@ -6,7 +6,7 @@ interface CardProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export default function Card({ children, glass = false, className = '', ...props }: CardProps) {
-  const base = 'rounded-3xl border border-slate-100 shadow-sm p-6 sm:p-8';
+  const base = 'rounded-2xl border border-slate-100 shadow-sm p-4 sm:p-5';
   const bg = glass ? 'glass' : 'bg-surface-card';
 
   return (

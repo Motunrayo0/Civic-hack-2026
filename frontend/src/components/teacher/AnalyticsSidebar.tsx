@@ -72,7 +72,7 @@ export default function AnalyticsSidebar({ reflections }: AnalyticsSidebarProps)
           <h3 className="text-sm font-semibold text-gray-900">Top Topics</h3>
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-4 pt-1">
           {topTopics.map(([topic, count], i) => {
             const cluster = TOPIC_CLUSTERS.find(c => c.label === topic);
             return (

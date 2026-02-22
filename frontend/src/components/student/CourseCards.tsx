@@ -13,7 +13,7 @@ export default function CourseCards({ courses, onSelectCourse, activeCourse }: C
   const [expanded, setExpanded] = useState(true);
 
   return (
-    <div className="mb-6">
+    <div className="mb-4">
       <button
         onClick={() => setExpanded(!expanded)}
         className="flex items-center gap-2 text-sm font-medium text-gray-500 mb-3 cursor-pointer hover:text-gray-700 transition-colors"
@@ -23,7 +23,7 @@ export default function CourseCards({ courses, onSelectCourse, activeCourse }: C
       </button>
 
       {expanded && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {courses.map(course => (
             <Card
               key={course.id}
@@ -32,9 +32,9 @@ export default function CourseCards({ courses, onSelectCourse, activeCourse }: C
               }`}
               onClick={() => onSelectCourse(course.code)}
             >
-              <p className="text-xs text-gray-400 font-mono mb-1">{course.code}</p>
-              <h3 className="font-semibold text-gray-900 mb-2">{course.name}</h3>
-              <p className="text-sm text-gray-500 mb-3">
+              <p className="text-xs text-gray-400 font-mono mb-0.5">{course.code}</p>
+              <h3 className="font-semibold text-gray-900 mb-1">{course.name}</h3>
+              <p className="text-sm text-gray-500 mb-2">
                 Recent: <span className="text-gray-700">{course.recentTopic}</span>
               </p>
               <div className="flex items-center gap-1 text-xs text-gray-400">

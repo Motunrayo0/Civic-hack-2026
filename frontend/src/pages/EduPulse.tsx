@@ -31,23 +31,20 @@ export default function EduPulse() {
             <ArrowLeft size={16} />
             <span className="font-serif text-lg text-gray-900">Surfaced</span>
           </button>
-          <span className="text-xs text-gray-400">Student View</span>
         </div>
       </nav>
 
-      <main className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 py-8 md:py-12">
-        <StudentHeader greeting={CURRENT_STUDENT.name} insights={insights} />
+      <main className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 py-4 md:py-6">
+        <StudentHeader greeting={CURRENT_STUDENT.name} insights={insights} reflections={courseReflections} />
 
-        <CourseCards
-          courses={studentCourses}
-          onSelectCourse={setActiveCourse}
-          activeCourse={activeCourse}
-        />
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-10">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
           {/* Main content */}
           <div className="lg:col-span-2">
-            <ContributionTimeline reflections={courseReflections} />
+            <CourseCards
+              courses={studentCourses}
+              onSelectCourse={setActiveCourse}
+              activeCourse={activeCourse}
+            />
             <ActiveLessonView course={currentCourseData} reflections={courseReflections} />
           </div>
 

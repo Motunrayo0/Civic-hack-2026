@@ -11,8 +11,8 @@ export default function ContributionTimeline({ reflections }: ContributionTimeli
   );
 
   return (
-    <div className="mb-6">
-      <h3 className="text-sm font-medium text-gray-500 mb-3">Your Thinking Timeline</h3>
+    <div className="mb-4">
+      <h3 className="text-sm font-medium text-gray-500 mb-2">Your Thinking Timeline</h3>
       <div className="flex items-center gap-2 overflow-x-auto pb-2">
         {sorted.map((r, i) => (
           <div key={r.id} className="flex items-center gap-2">
