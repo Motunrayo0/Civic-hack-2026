@@ -3,7 +3,6 @@ from services.logic import generate_heatmap_data
 
 app = FastAPI()
 
-
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
