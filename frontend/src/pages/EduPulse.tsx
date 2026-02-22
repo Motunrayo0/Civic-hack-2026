@@ -7,7 +7,7 @@ import ActiveLessonView from '../components/student/ActiveLessonView';
 import InsightsSidebar from '../components/student/InsightsSidebar';
 import FileUpload from '../components/student/FileUpload';
 import { COURSES, getInsightsForCourse } from '../data/mockData';
-import { getStudents } from '../services/api';
+import { getStudents, getAnalyzedStudentReflections } from '../services/api';
 import type { Student, StudentReflection } from '../types';
 
 export default function EduPulse() {
@@ -35,20 +35,32 @@ export default function EduPulse() {
         const mappedReflections: StudentReflection[] = [];
 
         if (targetStudent.classes) {
-          Object.entries(targetStudent.classes).forEach(([_, classData]) => {
-            Object.entries(classData).forEach(([date, noteData]) => {
-              // For now, map everything to 'wonder' as a default pattern 
+          for (const [cName, classData] of Object.entries(targetStudent.classes)) {
+            let classEvaluations: any = {};
+            try {
+              classEvaluations = await getAnalyzedStudentReflections(targetStudent._id, cName);
+            } catch (e) {
+              console.warn("Could not fetch student analysis for", cName, e);
+            }
+
+            for (const [date, noteData] of Object.entries(classData)) {
+              let pattern = 'curiosity';
+
+              if (classEvaluations[date]) {
+                pattern = classEvaluations[date].sentiment.toLowerCase();
+              }
+
               mappedReflections.push({
                 id: `ref_${targetStudent!._id}_${date}`,
                 studentId: targetStudent!._id,
                 studentName: targetStudent!.name,
                 content: noteData.notes,
-                pattern: 'wonder',
+                pattern: pattern as any,
                 timestamp: new Date(date).toISOString(),
-                topic: noteData.topic
+                topic: noteData.topic || 'General Discussion'
               });
-            });
-          });
+            }
+          }
         }
 
         const standardStudent: Student = {
@@ -56,7 +68,7 @@ export default function EduPulse() {
           name: targetStudent.name,
           courses: mappedCourses,
           reflections: mappedReflections,
-          overallPattern: 'wonder' // default
+          overallPattern: 'curiosity' // default
         };
 
         setCurrentStudent(standardStudent);

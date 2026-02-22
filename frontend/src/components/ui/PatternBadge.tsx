@@ -11,14 +11,12 @@ const BADGE_STYLES: Record<ThinkingPattern, string> = {
   confusion: 'bg-confusion-light text-confusion',
   curiosity: 'bg-curiosity-light text-curiosity',
   clarity: 'bg-clarity-light text-clarity',
-  wonder: 'bg-wonder-light text-wonder',
 };
 
 const DOT_STYLES: Record<ThinkingPattern, string> = {
   confusion: 'bg-confusion',
   curiosity: 'bg-curiosity',
   clarity: 'bg-clarity',
-  wonder: 'bg-wonder',
 };
 
 const SIZES = {

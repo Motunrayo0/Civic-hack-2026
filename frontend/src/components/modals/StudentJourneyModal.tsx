@@ -11,8 +11,7 @@ interface StudentJourneyModalProps {
 const PATTERN_SCORE: Record<ThinkingPattern, number> = {
   confusion: 1,
   curiosity: 2,
-  wonder: 3,
-  clarity: 4,
+  clarity: 3,
 };
 
 export default function StudentJourneyModal({ student, onClose }: StudentJourneyModalProps) {
@@ -109,7 +108,6 @@ export default function StudentJourneyModal({ student, onClose }: StudentJourney
                     confusion: '#E85D5D',
                     curiosity: '#DAA520',
                     clarity: '#34C759',
-                    wonder: '#7C5CBF',
                   };
                   return (
                     <circle

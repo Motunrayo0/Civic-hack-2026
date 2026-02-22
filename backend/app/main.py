@@ -6,7 +6,7 @@ from models.students import upload_student_note, get_students, delete_student_no
 
 # from models.teachers import
 # from models.teachers import 
-from services.logic import generate_heatmap_data
+from services.logic import generate_heatmap_data, analyze_single_student_reflections
 
 app = FastAPI()
 
@@ -44,3 +44,7 @@ async def delete_note(student_id: str, class_name: str, date: str):
     return await delete_student_note(student_id, class_name, date)
 
 
+@app.get("/students/{student_id}/classes/{class_name}/reflections/analyze")
+async def analyze_student(student_id: str, class_name: str):
+    return await analyze_single_student_reflections(student_id, class_name)
+    

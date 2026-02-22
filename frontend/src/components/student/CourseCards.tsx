@@ -23,7 +23,7 @@ export default function CourseCards({ courses, onSelectCourse, activeCourse }: C
       </button>
 
       {expanded && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className={`grid grid-cols-1 ${courses.length === 1 ? 'sm:grid-cols-1' : 'sm:grid-cols-2'} gap-3`}>
           {courses.map(course => (
             <Card
               key={course.id}

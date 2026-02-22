@@ -1,4 +1,4 @@
-export type ThinkingPattern = 'confusion' | 'curiosity' | 'clarity' | 'wonder';
+export type ThinkingPattern = 'confusion' | 'curiosity' | 'clarity';
 
 export interface StudentReflection {
   id: string;
@@ -48,25 +48,23 @@ export interface TopicCluster {
   x: number;
   y: number;
   size: number;
+  studentIds?: string[];
 }
 
 export const PATTERN_COLORS: Record<ThinkingPattern, string> = {
   confusion: 'var(--color-confusion)',
   curiosity: 'var(--color-curiosity)',
   clarity: 'var(--color-clarity)',
-  wonder: 'var(--color-wonder)',
 };
 
 export const PATTERN_BG_COLORS: Record<ThinkingPattern, string> = {
   confusion: 'var(--color-confusion-light)',
   curiosity: 'var(--color-curiosity-light)',
   clarity: 'var(--color-clarity-light)',
-  wonder: 'var(--color-wonder-light)',
 };
 
 export const PATTERN_LABELS: Record<ThinkingPattern, string> = {
   confusion: 'Confused',
   curiosity: 'Curious',
   clarity: 'Clear',
-  wonder: 'Wondering',
 };

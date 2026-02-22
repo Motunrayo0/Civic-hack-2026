@@ -8,7 +8,7 @@ interface TopicClusterModalProps {
   onClose: () => void;
 }
 
-const PATTERN_ORDER: ThinkingPattern[] = ['confusion', 'curiosity', 'wonder', 'clarity'];
+const PATTERN_ORDER: ThinkingPattern[] = ['confusion', 'curiosity', 'clarity'];
 
 export default function TopicClusterModal({ cluster, reflections, onClose }: TopicClusterModalProps) {
   const topicReflections = reflections.filter(r => r.topic === cluster.label);

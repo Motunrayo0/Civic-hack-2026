@@ -5,7 +5,6 @@ const PATTERN_FILL: Record<string, string> = {
   confusion: '#E85D5D',
   curiosity: '#DAA520',
   clarity: '#34C759',
-  wonder: '#7C5CBF',
 };
 
 interface LivePulseCanvasProps {

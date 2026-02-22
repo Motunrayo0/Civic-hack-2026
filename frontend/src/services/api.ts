@@ -123,3 +123,21 @@ export async function deleteNote(studentId: string, className: string, date: str
 
   return response.json();
 }
+
+/**
+ * Fetches the AI sentiment analysis specifically for a single student's reflections 
+ * for a specific class to avoid heavy API usage.
+ *
+ * @param studentId - The ID of the student
+ * @param className - The course identifier
+ * @returns Map of date to AI sentiment evaluations
+ */
+export async function getAnalyzedStudentReflections(studentId: string, className: string) {
+  const response = await fetch(`${API_BASE_URL}/students/${encodeURIComponent(studentId)}/classes/${encodeURIComponent(className)}/reflections/analyze`);
+  
+  if (!response.ok) {
+    throw new Error(`Failed to fetch student analysis: ${response.statusText}`);
+  }
+
+  return response.json();
+}

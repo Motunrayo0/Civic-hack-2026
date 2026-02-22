@@ -128,7 +128,7 @@ export const REFLECTIONS: StudentReflection[] = [
     studentId: 's11',
     studentName: 'Jordan T.',
     content: "Othello's tragic flaw is his 'free and open nature' which Iago exploits. His love is so intense it's easily curdled into jealousy.",
-    pattern: 'wonder',
+    pattern: 'curiosity',
     timestamp: '2026-02-21T09:40:00Z',
     topic: 'Othello & Iago',
   },
@@ -146,7 +146,7 @@ export const REFLECTIONS: StudentReflection[] = [
     studentId: 's13',
     studentName: 'Lennon W.',
     content: "The 'To be or not to be' speech is the ultimate conceptual tension. It's not just about suicide; it's about the burden of existence.",
-    pattern: 'wonder',
+    pattern: 'curiosity',
     timestamp: '2026-02-21T09:45:00Z',
     topic: "Hamlet's Hesitation",
   },
@@ -192,7 +192,7 @@ export const REFLECTIONS: StudentReflection[] = [
     studentId: 's14',
     studentName: 'Casey Rivera',
     content: "The CLT is fascinating because it allows us to make inferences about a population even if the population isn't normal.",
-    pattern: 'wonder',
+    pattern: 'curiosity',
     timestamp: '2026-02-21T11:05:00Z',
     topic: 'Central Limit Theorem',
   },
@@ -218,9 +218,9 @@ export const STUDENTS: Student[] = [
   { id: 's8', name: 'Gale M.', courses: ['Shakespeare_ENG302'], reflections: REFLECTIONS.filter(r => r.studentId === 's8'), overallPattern: 'confusion' },
   { id: 's9', name: 'Hollis R.', courses: ['Shakespeare_ENG302'], reflections: REFLECTIONS.filter(r => r.studentId === 's9'), overallPattern: 'clarity' },
   { id: 's10', name: 'Indi P.', courses: ['Shakespeare_ENG302'], reflections: REFLECTIONS.filter(r => r.studentId === 's10'), overallPattern: 'curiosity' },
-  { id: 's11', name: 'Jordan T.', courses: ['Shakespeare_ENG302'], reflections: REFLECTIONS.filter(r => r.studentId === 's11'), overallPattern: 'wonder' },
+  { id: 's11', name: 'Jordan T.', courses: ['Shakespeare_ENG302'], reflections: REFLECTIONS.filter(r => r.studentId === 's11'), overallPattern: 'curiosity' },
   { id: 's12', name: 'Kai B.', courses: ['Shakespeare_ENG302'], reflections: REFLECTIONS.filter(r => r.studentId === 's12'), overallPattern: 'curiosity' },
-  { id: 's13', name: 'Lennon W.', courses: ['Shakespeare_ENG302'], reflections: REFLECTIONS.filter(r => r.studentId === 's13'), overallPattern: 'wonder' },
+  { id: 's13', name: 'Lennon W.', courses: ['Shakespeare_ENG302'], reflections: REFLECTIONS.filter(r => r.studentId === 's13'), overallPattern: 'curiosity' },
   { id: 's14', name: 'Casey Rivera', courses: ['Shakespeare_ENG302', 'Statistics_MATH201'], reflections: REFLECTIONS.filter(r => r.studentId === 's14'), overallPattern: 'clarity' },
   { id: 's15', name: 'Sam Taylor', courses: ['Shakespeare_ENG302', 'Statistics_MATH201'], reflections: REFLECTIONS.filter(r => r.studentId === 's15'), overallPattern: 'confusion' },
 ];
@@ -228,10 +228,10 @@ export const STUDENTS: Student[] = [
 export const TOPIC_CLUSTERS: TopicCluster[] = [
   { id: 'tc1', label: "Hamlet's Hesitation", pattern: 'confusion', count: 6, x: 30, y: 35, size: 90 },
   { id: 'tc2', label: 'Othello & Iago', pattern: 'curiosity', count: 6, x: 65, y: 40, size: 85 },
-  { id: 'tc3', label: 'Feigned vs Real Madness', pattern: 'wonder', count: 3, x: 45, y: 65, size: 60 },
+  { id: 'tc3', label: 'Feigned vs Real Madness', pattern: 'curiosity', count: 3, x: 45, y: 65, size: 60 },
   { id: 'tc4', label: 'Central Limit Theorem', pattern: 'confusion', count: 3, x: 75, y: 70, size: 55 },
   { id: 'tc5', label: "Iago's Motives", pattern: 'clarity', count: 3, x: 20, y: 60, size: 50 },
-  { id: 'tc6', label: 'Burden of Existence', pattern: 'wonder', count: 2, x: 50, y: 25, size: 45 },
+  { id: 'tc6', label: 'Burden of Existence', pattern: 'curiosity', count: 2, x: 50, y: 25, size: 45 },
 ];
 
 export function getInsightsForCourse(courseCode: string): StudentInsights {
@@ -255,7 +255,7 @@ export function getInsightsForCourse(courseCode: string): StudentInsights {
 }
 
 export function getPatternDistribution(reflections: StudentReflection[]) {
-  const distribution = { confusion: 0, curiosity: 0, clarity: 0, wonder: 0 };
+  const distribution = { confusion: 0, curiosity: 0, clarity: 0 };
   reflections.forEach(r => distribution[r.pattern]++);
   return distribution;
 }

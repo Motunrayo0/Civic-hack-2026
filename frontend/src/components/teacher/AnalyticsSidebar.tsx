@@ -12,13 +12,12 @@ const BAR_COLORS: Record<ThinkingPattern, string> = {
   confusion: 'bg-confusion',
   curiosity: 'bg-curiosity',
   clarity: 'bg-clarity',
-  wonder: 'bg-wonder',
 };
 
 export default function AnalyticsSidebar({ reflections }: AnalyticsSidebarProps) {
   const distribution = getPatternDistribution(reflections);
   const total = reflections.length || 1;
-  const patterns: ThinkingPattern[] = ['confusion', 'curiosity', 'clarity', 'wonder'];
+  const patterns: ThinkingPattern[] = ['confusion', 'curiosity', 'clarity'];
 
   // Compute top topics by frequency
   const topicStats: Record<string, { count: number; patterns: Record<string, number> }> = {};
