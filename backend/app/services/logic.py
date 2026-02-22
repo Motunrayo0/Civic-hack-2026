@@ -10,6 +10,7 @@ import json
 import asyncio
 import logging
 import traceback
+from tenacity import retry, wait_exponential, stop_after_attempt, retry_if_exception_type
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -41,6 +42,10 @@ api_lock = asyncio.Lock()
 """
 Batch Sentiment Classification
 """
+@retry(
+    wait=wait_exponential(multiplier=1, min=2, max=10),
+    stop=stop_after_attempt(5)
+)
 async def batch_classify_sentiments(notes_dict: dict):
     if not notes_dict:
         return {}
@@ -48,7 +53,7 @@ async def batch_classify_sentiments(notes_dict: dict):
     prompt = f"""
         You are an academic sentiment classifier.
         Classify the following classroom notes into: CONFUSION, CURIOSITY, CLARITY.
-        Return ONLY valid JSON mapping the student ID to their classification:
+        Return ONLY valid JSON mapping the student ID to their classification. Do not include markdown formatting.
         {{
             "student_id_1": {{ "sentiment": "...", "confidence": float }},
             "student_id_2": {{ "sentiment": "...", "confidence": float }}
@@ -59,23 +64,27 @@ async def batch_classify_sentiments(notes_dict: dict):
     """
 
     async with api_lock:
-        await asyncio.sleep(8)
         response = gemini_client.models.generate_content(
             model=MODEL_ID, 
-            contents=prompt
+            contents=prompt,
+            config=genai.types.GenerateContentConfig(response_mime_type="application/json")
         )
     return _parse_json_response(response.text)
 
 """
 Batch Confusion Extraction
 """
+@retry(
+    wait=wait_exponential(multiplier=1, min=2, max=10),
+    stop=stop_after_attempt(5)
+)
 async def batch_extract_confusions(notes_dict: dict):
     if not notes_dict:
         return {}
     notes_str = "\n".join([f'"{sid}": "{text}"' for sid, text in notes_dict.items()])
     prompt = f"""
         Extract confusion topics from these academic notes.
-        Return ONLY valid JSON mapping the student ID to their confusion topics:
+        Return ONLY valid JSON mapping the student ID to their confusion topics. Do not include markdown formatting.
         {{
             "student_id_1": {{ "confusion_topics": [ {{ "topic": "short title", "description": "clear explanation" }} ] }},
             "student_id_2": {{ "confusion_topics": [ {{ "topic": "short title", "description": "clear explanation" }} ] }}
@@ -85,21 +94,24 @@ async def batch_extract_confusions(notes_dict: dict):
         {notes_str}
     """
     async with api_lock:
-        await asyncio.sleep(8)
         response = gemini_client.models.generate_content(
             model=MODEL_ID, 
-            contents=prompt
+            contents=prompt,
+            config=genai.types.GenerateContentConfig(response_mime_type="application/json")
         )
     return _parse_json_response(response.text)
 
 """
 Batch Embedding Generation
 """
+@retry(
+    wait=wait_exponential(multiplier=1, min=2, max=10),
+    stop=stop_after_attempt(5)
+)
 async def batch_generate_embeddings(note_texts: list):
     if not note_texts:
         return []
     async with api_lock:
-        await asyncio.sleep(8)
         response = gemini_client.models.embed_content(
             model="gemini-embedding-001",
             contents=note_texts,
@@ -229,20 +241,15 @@ async def generate_heatmap_data(class_name: str, date: str):
             notes_dict = {s["student_id"]: s["note_text"] for s in valid_students}
             note_texts = [s["note_text"] for s in valid_students]
 
-            # 1. Batch Embedding
+            # 1 & 2. Batch Embedding AND Sentiment Analysis (Parallel)
+            logger.info("[DEBUG] Requesting batch embeddings and sentiments concurrently")
             try:
-                logger.info("[DEBUG] Requesting batch embeddings")
-                embeddings = await batch_generate_embeddings(note_texts)
+                embeddings, sentiments_result = await asyncio.gather(
+                    batch_generate_embeddings(note_texts),
+                    batch_classify_sentiments(notes_dict)
+                )
             except Exception as e:
-                logger.error(f"[DEBUG] Batch embedding error: {e}")
-                raise
-
-            # 2. Batch Sentiment
-            try:
-                logger.info("[DEBUG] Requesting batch sentiments")
-                sentiments_result = await batch_classify_sentiments(notes_dict)
-            except Exception as e:
-                logger.error(f"[DEBUG] Batch sentiment error: {e}")
+                logger.error(f"[DEBUG] Batch embedding/sentiment error: {e}")
                 raise
 
             # 3. Filter for confusion extraction
