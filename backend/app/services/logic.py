@@ -1,92 +1,61 @@
 import os
-import google.generativeai as genai
+from google import genai
+from motor.motor_asyncio import AsyncIOMotorClient
+from bson import ObjectId
+from dotenv import load_dotenv
 import numpy as np
 from sklearn.decomposition import PCA
 from sklearn.cluster import DBSCAN
 import json
 
-from services.db import db
+load_dotenv()
 
+gemini_client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+mongo_client = AsyncIOMotorClient("mongodb://localhost:27017")
+db = mongo_client["civic_hack"]
 
-"""
-LLM Setup
-"""
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-
-model = genai.GenerativeModel("gemini-1.5-flash")
-
+MODEL_ID = "gemini-1.5-flash"
 
 """
-sentiments classification
+Sentiment Classification
 """
 async def classify_sentiment(note_text: str):
     prompt = f"""
         You are an academic sentiment classifier.
-
-        Classify this classroom note into:
-
-        CONFUSION
-        UNDERSTOOD
-        UNANSWERED_QUESTION
-
+        Classify this classroom note into: CONFUSION, UNDERSTOOD, UNANSWERED_QUESTION.
         Return ONLY valid JSON:
-
-        {{
-        "sentiment": "...",
-        "confidence": float
-        }}
-
-        Student note:
-        {note_text}
+        {{ "sentiment": "...", "confidence": float }}
+        Student note: {note_text}
     """
 
-    response = await model.generate_content_async(
-        prompt,
-        generation_config={"response_mime_type": "application/json"}
+    response = gemini_client.models.generate_content(
+        model=MODEL_ID, 
+        contents=prompt
     )
-
     return json.loads(response.text)
 
 """
-Confusion Topic Extraction
+Confusion extraction
 """
 async def extract_confusion(note_text: str):
     prompt = f"""
         Extract confusion topics from this academic note.
-
         Return ONLY JSON:
-
-        {{
-        "confusion_topics": [
-            {{
-            "topic": "short title",
-            "description": "clear explanation"
-            }}
-        ]
-        }}
-
-        Note:
-        {note_text}
+        {{ "confusion_topics": [ {{ "topic": "short title", "description": "clear explanation" }} ] }}
+        Note: {note_text}
     """
-
-    response = await model.generate_content_async(
-        prompt,
-        generation_config={"response_mime_type": "application/json"}
+    response = gemini_client.models.generate_content(
+        model=MODEL_ID, 
+        contents=prompt
     )
-
     return json.loads(response.text)
 
-"""
-Generate Embeddings
-"""
 async def generate_embedding(note_text: str):
-    embedding = await genai.embed_content_async(
-        model="models/text-embedding-004",
-        content=note_text,
-        task_type="clustering"
+    response = gemini_client.models.embed_content(
+        model="text-embedding-004",
+        contents=note_text
     )
-
-    return embedding["embedding"]
+    return response.embeddings[0].values
 
 """
 HeatMap Data Generation
@@ -160,7 +129,6 @@ async def generate_heatmap_data(class_name: str, date: str):
         })
 
     return heatmap_data
-
 
 
 def get_single_embedding(text: str):
