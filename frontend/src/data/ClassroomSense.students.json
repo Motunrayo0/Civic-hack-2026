@@ -1,242 +1,244 @@
-[{
-  "_id": {
-    "$oid": "699a10f6051dd2f66ec9e794"
-  },
-  "name": "Jordan Smith",
-  "classes": {
-    "Shakespeare_ENG302": {
-      "2026-02-21": {
-        "topic": "Iago's Manipulations",
-        "notes": "I'm confused about Iago's 'motive-hunting.' Why does he need a reason to be evil?"
-      }
-    }
-  }
-},
-{
-  "_id": {
-    "$oid": "699a11c0051dd2f66ec9e796"
-  },
-  "name": "Aria V.",
-  "classes": {
-    "Shakespeare_ENG302": {
-      "2026-02-21": {
-        "topic": "Hamlet's Hesitation",
-        "notes": "I'm lost. Why does Hamlet wait so long to kill Claudius? Is he actually scared or just overthinking the morality of revenge?"
-      }
-    }
-  }
-},
-{
-  "_id": {
-    "$oid": "699a11c0051dd2f66ec9e797"
-  },
-  "name": "Blake S.",
-  "classes": {
-    "Shakespeare_ENG302": {
-      "2026-02-21": {
-        "topic": "Hamlet's Hesitation",
-        "notes": "The 'antic disposition' is brilliant. By acting mad, Hamlet creates a smoke screen to observe Claudius without being a direct suspect."
-      }
-    }
-  }
-},
-{
-  "_id": {
-    "$oid": "699a11c0051dd2f66ec9e798"
-  },
-  "name": "Charlie D.",
-  "classes": {
-    "Shakespeare_ENG302": {
-      "2026-02-21": {
-        "topic": "Hamlet's Hesitation",
-        "notes": "What is the difference between Hamlet's feigned madness and Ophelia's actual madness? I don't understand where the line is."
-      }
-    }
-  }
-},
-{
-  "_id": {
-    "$oid": "699a11c0051dd2f66ec9e799"
-  },
-  "name": "Dani L.",
-  "classes": {
-    "Shakespeare_ENG302": {
-      "2026-02-21": {
-        "topic": "Hamlet's Hesitation",
-        "notes": "Hamlet's hesitation isn't weakness; it's a search for 'grounds more relative.' He needs certainty before he commits an unnatural act like regicide."
-      }
-    }
-  }
-},
-{
-  "_id": {
-    "$oid": "699a11c0051dd2f66ec9e79a"
-  },
-  "name": "Emerson J.",
-  "classes": {
-    "Shakespeare_ENG302": {
-      "2026-02-21": {
-        "topic": "Othello & Iago",
-        "notes": "I'm confused about Iago's motive-hunting. Does he really hate Othello because of the promotion, or is he just evil for the sake of it?"
-      }
-    }
-  }
-},
-{
-  "_id": {
-    "$oid": "699a11c0051dd2f66ec9e79b"
-  },
-  "name": "Finn K.",
-  "classes": {
-    "Shakespeare_ENG302": {
-      "2026-02-21": {
-        "topic": "Othello & Iago",
-        "notes": "Iago is a master of language. He uses Othello's racial insecurities as a lever to break his trust in Desdemona. It's psychological warfare."
-      }
-    }
-  }
-},
-{
-  "_id": {
-    "$oid": "699a11c0051dd2f66ec9e79c"
-  },
-  "name": "Gale M.",
-  "classes": {
-    "Shakespeare_ENG302": {
-      "2026-02-21": {
-        "topic": "Othello & Iago",
-        "notes": "Why does Othello trust Iago more than his own wife? This breakdown in communication is so frustrating to read. I don't get it."
-      }
-    }
-  }
-},
-{
-  "_id": {
-    "$oid": "699a11c0051dd2f66ec9e79d"
-  },
-  "name": "Hollis R.",
-  "classes": {
-    "Shakespeare_ENG302": {
-      "2026-02-21": {
-        "topic": "Othello & Iago",
-        "notes": "The handkerchief is a vital symbol of fidelity. Once Othello sees it in Cassio's hand, the 'proof' becomes ocular and undeniable to him."
-      }
-    }
-  }
-},
-{
-  "_id": {
-    "$oid": "699a11c0051dd2f66ec9e79e"
-  },
-  "name": "Indi P.",
-  "classes": {
-    "Shakespeare_ENG302": {
-      "2026-02-21": {
-        "topic": "Othello & Iago",
-        "notes": "I'm confused about the military hierarchy. Why was Cassio promoted over Iago in the first place? Was it purely favoritism?"
-      }
-    }
-  }
-},
-{
-  "_id": {
-    "$oid": "699a11c0051dd2f66ec9e79f"
-  },
-  "name": "Jordan T.",
-  "classes": {
-    "Shakespeare_ENG302": {
-      "2026-02-21": {
-        "topic": "Othello & Iago",
-        "notes": "Othello's tragic flaw is his 'free and open nature' which Iago exploits. His love is so intense it's easily curdled into jealousy."
-      }
-    }
-  }
-},
-{
-  "_id": {
-    "$oid": "699a11c0051dd2f66ec9e7a0"
-  },
-  "name": "Kai B.",
-  "classes": {
-    "Shakespeare_ENG302": {
-      "2026-02-21": {
-        "topic": "Hamlet's Hesitation",
-        "notes": "Is Hamlet a hero or a villain? He kills Polonius and treats Ophelia horribly. I'm struggling to stay on his side."
-      }
-    }
-  }
-},
-{
-  "_id": {
-    "$oid": "699a11c0051dd2f66ec9e7a1"
-  },
-  "name": "Lennon W.",
-  "classes": {
-    "Shakespeare_ENG302": {
-      "2026-02-21": {
-        "topic": "Hamlet's Hesitation",
-        "notes": "The 'To be or not to be' speech is the ultimate conceptual tension. It’s not just about suicide; it’s about the burden of existence."
-      }
-    }
-  }
-},
-{
-  "_id": {
-    "$oid": "699a121f051dd2f66ec9e7a3"
-  },
-  "name": "Jordan Smith",
-  "classes": {
-    "Shakespeare_ENG302": {
-      "2026-02-21": {
-        "topic": "Hamlet",
-        "notes": "I'm confused about the ghost. Is it a real ghost or just Hamlet's imagination? The language makes it hard to tell."
-      }
+[
+  {
+    "_id": {
+      "$oid": "699a10f6051dd2f66ec9e794"
     },
-    "Statistics_MATH201": {
-      "2026-02-21": {
-        "topic": "Central Limit Theorem",
-        "notes": "I don't get why the distribution becomes normal as the sample size increases. Why 30? Is that a magic number?"
+    "name": "Elena Hews",
+    "classes": {
+      "Astrophysics_AST301": {
+        "2026-02-21": {
+          "topic": "Event Horizon Mechanics",
+          "notes": "I'm confused about the event horizon. If nothing escapes, then how does Hawking radiation work? Doesn't that violate the boundary?"
+        }
       }
     }
-  }
-},
-{
-  "_id": {
-    "$oid": "699a121f051dd2f66ec9e7a4"
   },
-  "name": "Casey Rivera",
-  "classes": {
-    "Shakespeare_ENG302": {
-      "2026-02-21": {
-        "topic": "Hamlet",
-        "notes": "The ghost acts as a catalyst for the plot. It represents the 'unresolved' past coming back to haunt the present."
-      }
+  {
+    "_id": {
+      "$oid": "699a11c0051dd2f66ec9e796"
     },
-    "Statistics_MATH201": {
-      "2026-02-21": {
-        "topic": "Central Limit Theorem",
-        "notes": "The CLT is fascinating because it allows us to make inferences about a population even if the population isn't normal."
+    "name": "Aria V.",
+    "classes": {
+      "Astrophysics_AST301": {
+        "2026-02-21": {
+          "topic": "Time Dilation",
+          "notes": "I'm lost on time dilation near the black hole. Why does time stop for an outside observer but proceed normally for someone falling in?"
+        }
       }
     }
-  }
-},
-{
-  "_id": {
-    "$oid": "699a121f051dd2f66ec9e7a5"
   },
-  "name": "Sam Taylor",
-  "classes": {
-    "Shakespeare_ENG302": {
-      "2026-02-21": {
-        "topic": "Hamlet",
-        "notes": "I'm lost on the scene with the players. Why is Hamlet so obsessed with the play-within-a-play?"
-      }
+  {
+    "_id": {
+      "$oid": "699a11c0051dd2f66ec9e797"
     },
-    "Statistics_MATH201": {
-      "2026-02-21": {
-        "topic": "Central Limit Theorem",
-        "notes": "I'm totally stuck. How do we calculate the standard error again? The formula is confusing me."
+    "name": "Blake S.",
+    "classes": {
+      "Astrophysics_AST301": {
+        "2026-02-21": {
+          "topic": "Tidal Forces",
+          "notes": "The concept of spaghettification makes total sense now! Because gravity follows an inverse-square law, the tidal forces stretch an object out."
+        }
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "699a11c0051dd2f66ec9e798"
+    },
+    "name": "Charlie D.",
+    "classes": {
+      "Astrophysics_AST301": {
+        "2026-02-21": {
+          "topic": "The Singularity",
+          "notes": "What exactly happens at the singularity? Do the laws of physics just stop acting entirely, or is there a unified theory we just haven't found?"
+        }
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "699a11c0051dd2f66ec9e799"
+    },
+    "name": "Dani L.",
+    "classes": {
+      "Astrophysics_AST301": {
+        "2026-02-21": {
+          "topic": "General Relativity",
+          "notes": "Understanding General Relativity really helped clarify how mass curves spacetime. The geometry of the universe is fascinating."
+        }
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "699a11c0051dd2f66ec9e79a"
+    },
+    "name": "Emerson J.",
+    "classes": {
+      "Astrophysics_AST301": {
+        "2026-02-21": {
+          "topic": "Information Paradox",
+          "notes": "I'm confused about the information paradox. If black holes evaporate completely, where does all the quantum information of what fell in go?"
+        }
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "699a11c0051dd2f66ec9e79b"
+    },
+    "name": "Finn K.",
+    "classes": {
+      "Astrophysics_AST301": {
+        "2026-02-21": {
+          "topic": "Hawking Radiation",
+          "notes": "Hawking radiation is brilliant. Virtual particle pairs forming at the horizon, one falls in, the other escapes, effectively draining mass. Wow."
+        }
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "699a11c0051dd2f66ec9e79c"
+    },
+    "name": "Gale M.",
+    "classes": {
+      "Astrophysics_AST301": {
+        "2026-02-21": {
+          "topic": "Event Horizon Mechanics",
+          "notes": "Why can't light escape? I thought photons didn't have mass. How can gravity pull on something that is massless?"
+        }
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "699a11c0051dd2f66ec9e79d"
+    },
+    "name": "Hollis R.",
+    "classes": {
+      "Astrophysics_AST301": {
+        "2026-02-21": {
+          "topic": "Event Horizon Mechanics",
+          "notes": "The escape velocity equation makes it perfectly clear. When the required velocity exceeds c, not even light can get out. Simple math, wild concept."
+        }
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "699a11c0051dd2f66ec9e79e"
+    },
+    "name": "Indi P.",
+    "classes": {
+      "Astrophysics_AST301": {
+        "2026-02-21": {
+          "topic": "Photon Sphere",
+          "notes": "I want to know more about the photon sphere. If you stood there, could you literally see the back of your own head?"
+        }
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "699a11c0051dd2f66ec9e79f"
+    },
+    "name": "Jordan T.",
+    "classes": {
+      "Astrophysics_AST301": {
+        "2026-02-21": {
+          "topic": "The Singularity",
+          "notes": "Is it possible for a wormhole to exist inside a rotating Kerr black hole? Could the ring singularity act as a bridge?"
+        }
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "699a11c0051dd2f66ec9e7a0"
+    },
+    "name": "Kai B.",
+    "classes": {
+      "Astrophysics_AST301": {
+        "2026-02-21": {
+          "topic": "Supermassive Black Holes",
+          "notes": "I read that supermassive black holes might actually be less dense than water. How does that volume-to-mass ratio even work?"
+        }
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "699a11c0051dd2f66ec9e7a1"
+    },
+    "name": "Lennon W.",
+    "classes": {
+      "Astrophysics_AST301": {
+        "2026-02-21": {
+          "topic": "Event Horizon Mechanics",
+          "notes": "If gravitational waves propagate at the speed of light, what happens to them extremely close to the event horizon?"
+        }
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "699a121f051dd2f66ec9e7a3"
+    },
+    "name": "Elena Hews",
+    "classes": {
+      "Statistics_MATH201": {
+        "2026-02-21": {
+          "topic": "Central Limit Theorem",
+          "notes": "I don't get why the distribution becomes normal as the sample size increases. Why 30? Is that a magic number?"
+        }
+      },
+      "Astrophysics_AST301": {
+        "2026-02-21": {
+          "topic": "General Relativity",
+          "notes": "I'm really struggling to visualize the bending of spacetime in 3D. The rubber sheet analogy just isn't cutting it for me anymore."
+        }
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "699a121f051dd2f66ec9e7a4"
+    },
+    "name": "Casey Rivera",
+    "classes": {
+      "Statistics_MATH201": {
+        "2026-02-21": {
+          "topic": "Central Limit Theorem",
+          "notes": "The CLT is fascinating because it allows us to make inferences about a population even if the population isn't normal."
+        }
+      },
+      "Astrophysics_AST301": {
+        "2026-02-21": {
+          "topic": "Event Horizon Mechanics",
+          "notes": "Understanding the Schwarzschild radius helped pull everything together. It defines exactly where that point of no return is."
+        }
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "699a121f051dd2f66ec9e7a5"
+    },
+    "name": "Sam Taylor",
+    "classes": {
+      "Statistics_MATH201": {
+        "2026-02-21": {
+          "topic": "Central Limit Theorem",
+          "notes": "I'm totally stuck. How do we calculate the standard error again? The formula is confusing me."
+        }
+      },
+      "Astrophysics_AST301": {
+        "2026-02-21": {
+          "topic": "Stellar Collapse",
+          "notes": "Wait, so if a star collapses, does the gravity actually increase, or does it just get more concentrated? I don't follow."
+        }
       }
     }
   }
-}]
+]

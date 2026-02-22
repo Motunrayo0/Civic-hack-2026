@@ -1,19 +1,50 @@
-[{
-  "_id": {
-    "$oid": "699a2508051dd2f66ec9e7b2"
+[
+  {
+    "_id": {
+      "$oid": "699a2508051dd2f66ec9e7b3"
+    },
+    "teacher_name": "Dr. Eleanor Vance",
+    "classes_taught": [
+      {
+        "class_name": "Astrophysics_AST301",
+        "topics": [
+          {
+            "title": "Event Horizon Mechanics",
+            "description": "Analyzing behavior of matter and light near black holes..."
+          },
+          {
+            "title": "The Singularity",
+            "description": "Exploring gravitational collapse and infinite density..."
+          }
+        ],
+        "raw_text": "Full text of the curriculum document goes here..."
+      }
+    ]
   },
-  "teacher_name": "Dr. Aris Thorne",
-  "classes_taught": [
-    "Shakespeare_ENG302",
-    "CreativeWriting_ENG101"
-  ]
-},
-{
-  "_id": {
-    "$oid": "699a2508051dd2f66ec9e7b3"
-  },
-  "teacher_name": "Prof. Marcus Halloway",
-  "classes_taught": [
-    "Statistics_MATH201"
-  ]
-}]
+  {
+    "_id": {
+      "$oid": "67b973c15f9a2e41c8d1a2b5"
+    },
+    "teacher_name": "Dr. Elena Vance",
+    "classes_taught": [
+      {
+        "class_name": "Genetics_BIO201",
+        "topics": [
+          {
+            "title": "Mendelian Inheritance",
+            "description": "Understanding Punnett squares, dominant vs. recessive traits, and phenotypic ratios."
+          },
+          {
+            "title": "CRISPR and Gene Editing",
+            "description": "Exploring the mechanisms of Cas9 and the ethical implications of modern biotechnology."
+          },
+          {
+            "title": "DNA Replication",
+            "description": "Analyzing the roles of helicase, polymerase, and ligase in the cellular reproduction cycle."
+          }
+        ],
+        "raw_text": "This course provides an introduction to modern genetics. We will cover classical Mendelian laws before transitioning into advanced molecular biology, including DNA replication and the revolutionary CRISPR-Cas9 gene editing technology. Students are expected to complete lab work on fruit fly inheritance patterns."
+      }
+    ]
+  }
+]

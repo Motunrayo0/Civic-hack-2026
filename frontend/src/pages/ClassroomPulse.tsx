@@ -20,7 +20,7 @@ export default function ClassroomPulse() {
   const [selectedCluster, setSelectedCluster] = useState<TopicCluster | null>(null);
 
   // We are hardcoding the course and date for the hackathon demo
-  const courseCode = 'Shakespeare_ENG302';
+  const courseCode = 'Astrophysics_AST301';
 
   useEffect(() => {
     async function loadData() {
