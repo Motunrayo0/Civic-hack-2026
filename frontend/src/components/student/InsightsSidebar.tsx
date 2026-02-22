@@ -1,11 +1,10 @@
 import { TrendingUp, Clock } from 'lucide-react';
 import Card from '../ui/Card';
 import PatternBadge from '../ui/PatternBadge';
-import type { StudentInsights, StudentReflection, ThinkingPattern } from '../../types';
+import type { StudentReflection, ThinkingPattern } from '../../types';
 import { getPatternDistribution } from '../../data/mockData';
 
 interface InsightsSidebarProps {
-  insights: StudentInsights;
   reflections: StudentReflection[];
 }
 

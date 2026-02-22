@@ -33,8 +33,8 @@ export default function ActiveLessonView({ course, reflections }: ActiveLessonVi
           <span className="text-xs font-medium text-indigo-primary">AI Synthesis</span>
         </div>
         <p className="text-sm text-gray-600 leading-relaxed pt-4">
-          The class is exploring themes of <strong>indecision, moral paralysis, and the nature of action</strong> in this topic.
-          Key tensions have surfaced around whether hesitation reveals weakness or philosophical depth.
+          The class is exploring themes of <strong>gravitational collapse, spacetime curvature, and the nature of singularities</strong> in this topic.
+          Key tensions have surfaced around whether information is truly destroyed at the event horizon or preserved in some form.
         </p>
       </div>
 

@@ -154,7 +154,7 @@ export default function EduPulse() {
 
           {/* Sidebar */}
           <div>
-            <InsightsSidebar insights={insights} reflections={courseReflections} />
+            <InsightsSidebar reflections={courseReflections} />
           </div>
         </div>
       </main>
