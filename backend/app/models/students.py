@@ -1,17 +1,23 @@
 import os
 import datetime
 import io
+import asyncio
 
-import pymongo
 from fastapi import APIRouter, UploadFile, File, Form
 from docx import Document
 from dotenv import load_dotenv
 # This reaches into your logic.py file
-from services.logic import get_single_embedding 
+from services.logic import generate_embedding
+from services.db import db
 
 load_dotenv()
 
 router = APIRouter()
+
+def parse_docx(content: bytes) -> str:
+    doc = Document(io.BytesIO(content))
+    return "\n".join([para.text for para in doc.paragraphs])
+
 
 @router.post("/upload_note")
 async def upload_student_note(
@@ -22,18 +28,15 @@ async def upload_student_note(
 ):
 
     content = await file.read()
-    doc = Document(io.BytesIO(content))
-    full_text = "\n".join([para.text for para in doc.paragraphs])
+    # Run docx parsing in thread to avoid blocking the event loop
+    full_text = await asyncio.to_thread(parse_docx, content)
     
     # 2. Get the AI numbers from Gemini
-    ai_numbers = get_single_embedding(full_text)
+    ai_numbers = await generate_embedding(full_text)
     
-    
-    client = pymongo.MongoClient(os.getenv("MONGO_URI"))
-    db = client["ClassroomSense"]
     today = datetime.datetime.now().strftime("%Y-%m-%d")
 
-    db.students.update_one(
+    await db.students.update_one(
         {"name": student_name},
         {
             "$set": {

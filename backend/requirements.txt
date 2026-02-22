@@ -5,4 +5,4 @@ google-genai
 pymongo
 motor
 numpy
-scikit-learn
+scikit-learnpython-docx

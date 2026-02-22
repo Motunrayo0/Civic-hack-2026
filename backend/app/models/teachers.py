@@ -1,22 +1,17 @@
-import os
-import pymongo
-from dotenv import load_dotenv
+from fastapi import APIRouter
+from services.db import db
 
-load_dotenv()
+router = APIRouter()
 
-def test_teacher_connection(name_to_find):
-    client = pymongo.MongoClient(os.getenv("MONGO_URI"))
-    db = client["ClassroomSense"]
-    
-    
-    teacher = db.Teachers.find_one({"teacher_name": name_to_find})
+@router.get("/teachers/{name_to_find}")
+async def test_teacher_connection(name_to_find: str):
+    teacher = await db.Teachers.find_one({"teacher_name": name_to_find})
     
     if teacher:
-        print(f"Connected to teacher: {teacher['teacher_name']}")
-        print(f"Teach these classes: {teacher['classes_taught']}")
-        specific_class = teacher['classes_taught'][0]
-        print(f"Looking at: {specific_class}")
+        return {
+            "status": "success",
+            "teacher_name": teacher['teacher_name'],
+            "classes_taught": teacher.get('classes_taught', [])
+        }
     else:
-        print("Teacher not found. Check the name in MongoDB!")
-
-test_teacher_connection("Dr. Aris Thorne")
+        return {"status": "error", "message": "Teacher not found. Check the name in MongoDB!"}

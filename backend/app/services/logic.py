@@ -1,22 +1,19 @@
 import os
-from google import genai
-from motor.motor_asyncio import AsyncIOMotorClient
-from bson import ObjectId
+import google.generativeai as genai
 import numpy as np
 from sklearn.decomposition import PCA
 from sklearn.cluster import DBSCAN
 import json
 
+from services.db import db
+
 
 """
-LLM and Database Setup
+LLM Setup
 """
-client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
-model = client.models("gemini-1.5-flash")
-
-client = AsyncIOMotorClient("mongodb://localhost:27017")
-db = client["civic_hack"]
+model = genai.GenerativeModel("gemini-1.5-flash")
 
 
 """
@@ -43,7 +40,10 @@ async def classify_sentiment(note_text: str):
         {note_text}
     """
 
-    response = model.generate_content(prompt)
+    response = await model.generate_content_async(
+        prompt,
+        generation_config={"response_mime_type": "application/json"}
+    )
 
     return json.loads(response.text)
 
@@ -69,7 +69,10 @@ async def extract_confusion(note_text: str):
         {note_text}
     """
 
-    response = model.generate_content(prompt)
+    response = await model.generate_content_async(
+        prompt,
+        generation_config={"response_mime_type": "application/json"}
+    )
 
     return json.loads(response.text)
 
@@ -77,9 +80,10 @@ async def extract_confusion(note_text: str):
 Generate Embeddings
 """
 async def generate_embedding(note_text: str):
-    embedding = genai.embed_content(
-        model="models/embedding-001",
-        content=note_text
+    embedding = await genai.embed_content_async(
+        model="models/text-embedding-004",
+        content=note_text,
+        task_type="clustering"
     )
 
     return embedding["embedding"]
@@ -160,6 +164,7 @@ async def generate_heatmap_data(class_name: str, date: str):
 
 
 def get_single_embedding(text: str):
+    # This is kept for backwards compatibility if needed, but we recommend await generate_embedding
     embedding = genai.embed_content(
         model="models/text-embedding-004",
         content=text,
