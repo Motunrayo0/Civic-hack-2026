@@ -1,5 +1,7 @@
 [{
-  "_id": "699a2508051dd2f66ec9e7b3",
+  "_id": {
+    "$oid": "699a2508051dd2f66ec9e7b3"
+  },
   "teacher_name": "Prof. Marcus Halloway",
   "classes_taught": [
     {
@@ -19,7 +21,9 @@
   ]
 },
 {
-  "_id": "67b973c15f9a2e41c8d1a2b5",
+  "_id": {
+    "$oid": "67b973c15f9a2e41c8d1a2b5"
+  },
   "teacher_name": "Dr. Elena Vance",
   "classes_taught": [
     {

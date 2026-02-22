@@ -7,6 +7,7 @@ import numpy as np
 from sklearn.decomposition import PCA
 from sklearn.cluster import DBSCAN
 import json
+import asyncio
 
 load_dotenv()
 
@@ -83,58 +84,76 @@ async def generate_heatmap_data(class_name: str, date: str):
     students_cursor = db.students.find({
         f"classes.{class_name}.{date}": {"$exists": True}
     })
-
     students = await students_cursor.to_list(length=None)
+    print(students)
 
-    embeddings = []
+    if not students:
+        print("Am I here")
+        return []
+
     processed_students = []
 
-    for student in students:
+    # Run async tasks concurrently for efficiency
+    async def process_student(student):
         student_id = str(student["_id"])
         name = student["name"]
-
         note_data = student["classes"][class_name][date]
-        note_text = note_data["notes"]
+        note_text = note_data.get("notes", "").strip()
 
-        # Sentiment
-        sentiment_data = await classify_sentiment(note_text)
+        if not note_text:
+            return None
+
+        # Async calls
+        sentiment_task = asyncio.create_task(classify_sentiment(note_text))
+        confusion_task = None
+        embedding_task = asyncio.create_task(generate_embedding(note_text))
+
+        sentiment_data = await sentiment_task
         sentiment = sentiment_data["sentiment"]
         confidence = sentiment_data["confidence"]
 
-        # Confusion topics
-        confusion_topics = []
         if sentiment in ["CONFUSION", "UNANSWERED_QUESTION"]:
-            confusion = await extract_confusion(note_text)
-            confusion_topics = confusion.get("confusion_topics", [])
+            confusion_task = asyncio.create_task(extract_confusion(note_text))
+            confusion_result = await confusion_task
+            confusion_topics = confusion_result.get("confusion_topics", [])
+        else:
+            confusion_topics = []
 
-        # Embedding
-        embedding = await generate_embedding(note_text)
+        embedding = await embedding_task
 
-        embeddings.append(embedding)
-
-        processed_students.append({
+        return {
             "student_id": student_id,
             "name": name,
             "sentiment": sentiment,
             "confidence": confidence,
             "confusion_topics": confusion_topics,
             "embedding": embedding
-        })
+        }
 
-    # Convert to numpy
-    embeddings_np = np.array(embeddings)
+    # Process all students concurrently
+    tasks = [process_student(s) for s in students]
+    processed_students_list = await asyncio.gather(*tasks)
+    processed_students = [s for s in processed_students_list if s is not None]
 
-    # Reduce to 2D
-    pca = PCA(n_components=2)
-    coords = pca.fit_transform(embeddings_np)
+    if not processed_students:
+        return []
 
-    # Cluster
-    clustering = DBSCAN(eps=0.5, min_samples=1).fit(coords)
-    labels = clustering.labels_
+    # Build embedding matrix
+    embeddings_np = np.array([s["embedding"] for s in processed_students])
 
-    # Build response
+    # Ensure 2D array
+    if embeddings_np.ndim == 1:
+        embeddings_np = embeddings_np.reshape(1, -1)
+
+    # Run PCA in a separate thread to avoid blocking the event loop
+    loop = asyncio.get_event_loop()
+    coords = await loop.run_in_executor(None, lambda: PCA(n_components=2).fit_transform(embeddings_np))
+
+    # Run DBSCAN in executor as well
+    labels = await loop.run_in_executor(None, lambda: DBSCAN(eps=0.5, min_samples=1).fit(coords).labels_)
+
+    # Build heatmap data
     heatmap_data = []
-
     for i, student in enumerate(processed_students):
         heatmap_data.append({
             "student_id": student["student_id"],
