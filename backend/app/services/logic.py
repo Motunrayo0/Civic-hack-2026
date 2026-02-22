@@ -7,7 +7,7 @@ from sklearn.decomposition import PCA
 from sklearn.cluster import DBSCAN
 import json
 
-from ..models import students, teachers
+
 
 """
 LLM and Database Setup
@@ -157,3 +157,13 @@ async def generate_heatmap_data(class_name: str, date: str):
         })
 
     return heatmap_data
+
+
+
+def get_single_embedding(text: str):
+    embedding = genai.embed_content(
+        model="models/text-embedding-004",
+        content=text,
+        task_type="clustering"
+    )
+    return embedding["embedding"]

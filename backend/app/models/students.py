@@ -1,27 +1,49 @@
 import os
+import datetime
+import io
+
 import pymongo
+from fastapi import APIRouter, UploadFile, File, Form
+from docx import Document
 from dotenv import load_dotenv
+
+from services.logic import get_single_embedding 
 
 load_dotenv()
 
-def get_notes_for_clustering(class_name):
+router = APIRouter()
+
+@router.post("/upload_note")
+async def upload_student_note(
+    student_name: str = Form(...),
+    class_name: str = Form(...),
+    topic: str = Form(...),
+    file: UploadFile = File(...)
+):
+
+    content = await file.read()
+    doc = Document(io.BytesIO(content))
+    full_text = "\n".join([para.text for para in doc.paragraphs])
+    
+    # 2. Get the AI numbers from Gemini
+    ai_numbers = get_single_embedding(full_text)
+    
+    
     client = pymongo.MongoClient(os.getenv("MONGO_URI"))
     db = client["ClassroomSense"]
-    collection = db["students"]
-    
-    # This 'query' looks inside the nested 'classes' folder we made
-    # It finds everyone taking that specific class
-    cursor = collection.find({f"classes.{class_name}": {"$exists": True}})
-    
-    all_notes = []
-    for student in cursor:
-        # We grab the notes for the most recent date
-        class_data = student['classes'][class_name]
-        for date in class_data:
-            all_notes.append(class_data[date]['notes'])
-            
-    return all_notes
+    today = datetime.datetime.now().strftime("%Y-%m-%d")
 
-# TEST IT:
-notes = get_notes_for_clustering("Shakespeare_ENG302")
-print(f"Found {len(notes)} notes to analyze!")
+    db.students.update_one(
+        {"name": student_name},
+        {
+            "$set": {
+                f"classes.{class_name}.{today}": {
+                    "topic": topic,
+                    "notes": full_text,     
+                    "embedding": ai_numbers 
+                }
+            }
+        },
+        upsert=True
+    )
+    return {"status": "success", "message": f"Doc uploaded for {student_name}."}

@@ -41,7 +41,8 @@ urllib3==2.6.3
 uvicorn==0.41.0
 uvloop==0.22.1
 watchfiles==1.1.1
-websockets==16.0annotated-doc==0.0.4
+websockets==16.0
+annotated-doc==0.0.4
 annotated-types==0.7.0
 anyio==4.12.1
 certifi==2026.1.4
