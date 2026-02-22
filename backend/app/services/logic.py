@@ -12,8 +12,9 @@ import asyncio
 load_dotenv()
 
 gemini_client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
-mongo_client = AsyncIOMotorClient("mongodb://localhost:27017")
-db = mongo_client["civic_hack"]
+import certifi
+mongo_client = AsyncIOMotorClient(os.getenv("MONGO_URI", "mongodb://localhost:27017"), tlsCAFile=certifi.where())
+db = mongo_client["ClassroomSense"]
 
 MODEL_ID = "gemini-1.5-flash"
 
