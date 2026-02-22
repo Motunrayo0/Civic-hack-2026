@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import type { TopicCluster } from '../../types';
-import { TOPIC_CLUSTERS } from '../../data/mockData';
 
 const PATTERN_FILL: Record<string, string> = {
   confusion: '#E85D5D',
@@ -10,10 +9,11 @@ const PATTERN_FILL: Record<string, string> = {
 };
 
 interface LivePulseCanvasProps {
+  clusters: TopicCluster[];
   onSelectCluster?: (cluster: TopicCluster) => void;
 }
 
-export default function LivePulseCanvas({ onSelectCluster }: LivePulseCanvasProps) {
+export default function LivePulseCanvas({ clusters, onSelectCluster }: LivePulseCanvasProps) {
   return (
     <div className="relative w-full h-[400px] lg:h-[500px] rounded-3xl border border-slate-100 bg-surface-card overflow-hidden">
       {/* Grid background */}
@@ -23,7 +23,7 @@ export default function LivePulseCanvas({ onSelectCluster }: LivePulseCanvasProp
       }} />
 
       {/* Clusters */}
-      {TOPIC_CLUSTERS.map((cluster, i) => {
+      {clusters.map((cluster, i) => {
         const scaledSize = cluster.size * 1.3;
         return (
           <motion.button

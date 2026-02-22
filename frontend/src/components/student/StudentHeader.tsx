@@ -21,15 +21,9 @@ export default function StudentHeader({ greeting, insights, reflections }: Stude
       </div>
 
       <div className="flex items-center gap-3">
-        {/* Upload Note */}
-        <button className="glass rounded-2xl px-4 py-2 flex items-center gap-2 border border-slate-100 text-xs text-gray-500 hover:text-gray-700 hover:border-indigo-primary/30 transition-colors cursor-pointer">
-          <Upload size={14} />
-          Upload Note
-        </button>
-
         {/* Thinking Timeline */}
         <div className="glass rounded-2xl px-4 py-2 flex items-center gap-2 border border-slate-100">
-          <span className="text-xs text-gray-500">Timeline</span>
+          <span className="text-xs text-gray-500">Recent timeline</span>
           <div className="flex items-center gap-1.5">
             {sorted.map((r, i) => (
               <div key={r.id} className="flex items-center gap-1.5">
