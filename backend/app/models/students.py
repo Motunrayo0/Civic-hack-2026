@@ -19,7 +19,6 @@ def parse_docx(content: bytes) -> str:
     return "\n".join([para.text for para in doc.paragraphs])
 
 
-@router.post("/upload_note")
 async def upload_student_note(
     student_name: str = Form(...),
     class_name: str = Form(...),
