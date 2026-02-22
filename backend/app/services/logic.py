@@ -124,6 +124,10 @@ async def batch_generate_embeddings(note_texts: list):
 # Cache for single-student heatmap route to avoid duplicate API calls
 _student_reflections_cache = {}
 
+@retry(
+    wait=wait_exponential(multiplier=1, min=2, max=10),
+    stop=stop_after_attempt(5)
+)
 async def analyze_single_student_reflections(student_id: str, class_name: str):
     logger.info(f"[DEBUG] analyze_single_student_reflections - start: student_id={student_id}, class_name={class_name}")
     try:
@@ -167,10 +171,10 @@ async def analyze_single_student_reflections(student_id: str, class_name: str):
         logger.info(f"[DEBUG] Requesting lightweight sentiment classification for student {student_id}")
         
         async with api_lock:
-            await asyncio.sleep(2) # Smaller sleep since it's a lighter request
             response = gemini_client.models.generate_content(
                 model=MODEL_ID, 
-                contents=prompt
+                contents=prompt,
+                config=genai.types.GenerateContentConfig(response_mime_type="application/json")
             )
             
         result = _parse_json_response(response.text)
@@ -347,6 +351,10 @@ async def generate_heatmap_data(class_name: str, date: str):
 """
 Cluster Summary Generation
 """
+@retry(
+    wait=wait_exponential(multiplier=1, min=2, max=10),
+    stop=stop_after_attempt(5)
+)
 async def generate_cluster_summary(notes: list[str], pattern: str) -> str:
     """
     Generates a concise AI synthesis of what a cluster of students is thinking.
@@ -370,7 +378,6 @@ async def generate_cluster_summary(notes: list[str], pattern: str) -> str:
 
     try:
         async with api_lock:
-            await asyncio.sleep(2)
             response = gemini_client.models.generate_content(
                 model=MODEL_ID,
                 contents=prompt
