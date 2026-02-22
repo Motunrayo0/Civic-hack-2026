@@ -3,7 +3,7 @@ import datetime
 import io
 import asyncio
 
-from fastapi import APIRouter, UploadFile, File, Form
+from fastapi import UploadFile, File, Form
 from docx import Document
 from dotenv import load_dotenv
 # This reaches into your logic.py file
@@ -11,8 +11,6 @@ from services.logic import generate_embedding
 from services.db import db
 
 load_dotenv()
-
-router = APIRouter()
 
 def parse_docx(content: bytes) -> str:
     doc = Document(io.BytesIO(content))

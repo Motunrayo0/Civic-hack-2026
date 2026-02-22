@@ -1,7 +1,7 @@
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from models.students import upload_student_note
-from models.teachers import router as teacher_router
+# from models.teachers import 
 from services.logic import generate_heatmap_data
 
 app = FastAPI()

@@ -1,9 +1,5 @@
-from fastapi import APIRouter
 from services.db import db
 
-router = APIRouter()
-
-@router.get("/teachers/{name_to_find}")
 async def test_teacher_connection(name_to_find: str):
     teacher = await db.Teachers.find_one({"teacher_name": name_to_find})
     
