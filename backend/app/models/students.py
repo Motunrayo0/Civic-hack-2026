@@ -33,7 +33,7 @@ async def upload_student_note(
     
     # 2. Get the AI numbers from Gemini
     ai_numbers = await generate_embedding(full_text)
-    
+    print("Got to this point")
     today = datetime.datetime.now().strftime("%Y-%m-%d")
 
     await db.students.update_one(
