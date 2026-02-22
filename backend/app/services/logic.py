@@ -68,7 +68,7 @@ Embedding Generation
 """
 async def generate_embedding(note_text: str):
     response = gemini_client.models.embed_content(
-        model="text-embedding-004",
+        model="gemini-embedding-001",
         contents=[note_text],
         config={'task_type': 'clustering'}
     )
