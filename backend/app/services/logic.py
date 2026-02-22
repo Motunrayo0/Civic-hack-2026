@@ -50,6 +50,9 @@ async def extract_confusion(note_text: str):
     )
     return json.loads(response.text)
 
+"""
+Embedding Generation
+"""
 async def generate_embedding(note_text: str):
     response = gemini_client.models.embed_content(
         model="text-embedding-004",
