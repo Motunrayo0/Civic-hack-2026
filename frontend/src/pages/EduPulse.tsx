@@ -57,7 +57,8 @@ export default function EduPulse() {
                 content: noteData.notes,
                 pattern: pattern as any,
                 timestamp: new Date(date).toISOString(),
-                topic: noteData.topic || 'General Discussion'
+                topic: noteData.topic || 'General Discussion',
+                className: cName
               });
             }
           }
@@ -108,10 +109,8 @@ export default function EduPulse() {
   const currentCourseData = COURSES.find(c => c.code === activeCourse);
 
   const courseReflections = currentStudent.reflections.filter(
-    // Match the note's date/time back to the active course 
-    _ => true // In a real app we'd filter by course ID. Using all for the demo.
+    r => r.className === activeCourse
   );
-
   const insights = getInsightsForCourse(activeCourse);
 
   return (
@@ -155,7 +154,7 @@ export default function EduPulse() {
 
           {/* Sidebar */}
           <div>
-            <InsightsSidebar insights={insights} reflections={courseReflections} />
+            <InsightsSidebar reflections={courseReflections} />
           </div>
         </div>
       </main>

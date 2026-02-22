@@ -40,7 +40,7 @@ export async function getStudents(): Promise<MongoStudent[]> {
  * Uploads a student note file (e.g., .docx) to the backend for AI processing and embedding.
  *
  * @param studentName - The name of the student uploading the note
- * @param className - The course identifier (e.g., 'Shakespeare_ENG302')
+ * @param className - The course identifier (e.g., 'Astrophysics_AST301')
  * @param topic - The specific topic of the note
  * @param file - The file object to upload
  * @returns Status of the upload
