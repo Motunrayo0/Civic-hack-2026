@@ -35,7 +35,8 @@ export default function ClassroomPulse() {
                 content: noteData.notes,
                 pattern: 'wonder', // Defaulting to wonder without the AI heatmap sentiment analysis
                 timestamp: new Date(date).toISOString(),
-                topic: noteData.topic || 'General Discussion'
+                topic: noteData.topic || 'General Discussion',
+                className: courseCode
               });
             });
           }

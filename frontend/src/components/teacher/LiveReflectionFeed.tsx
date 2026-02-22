@@ -39,7 +39,12 @@ export default function LiveReflectionFeed({ reflections, onSelectStudent }: Liv
                   <p className="text-[10px] text-gray-400">{r.topic}</p>
                 </div>
               </div>
-              <PatternBadge pattern={r.pattern} size="sm" />
+              <div className="flex items-center gap-3">
+                {r.className && (
+                  <span className="text-xs font-medium text-gray-500">{r.className}</span>
+                )}
+                <PatternBadge pattern={r.pattern} size="sm" />
+              </div>
             </div>
             <p className="text-sm text-gray-600 leading-relaxed line-clamp-2">
               "{r.content}"

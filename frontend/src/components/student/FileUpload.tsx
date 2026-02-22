@@ -6,10 +6,11 @@ import { uploadStudentNote } from '../../services/api';
 interface FileUploadProps {
     studentName: string;
     className: string;
+    courseName?: string;
     topic: string;
 }
 
-export default function FileUpload({ studentName, className, topic }: FileUploadProps) {
+export default function FileUpload({ studentName, className, courseName, topic }: FileUploadProps) {
     const [file, setFile] = useState<File | null>(null);
     const [status, setStatus] = useState<'idle' | 'uploading' | 'success' | 'error'>('idle');
     const [errorMessage, setErrorMessage] = useState('');
@@ -39,9 +40,16 @@ export default function FileUpload({ studentName, className, topic }: FileUpload
 
     return (
         <Card className="mb-4">
-            <div className="flex items-center gap-2 mb-4">
-                <UploadCloud size={20} className="text-indigo-primary" />
-                <h2 className="font-serif text-xl text-gray-900">Upload Your Notes</h2>
+            <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                    <UploadCloud size={20} className="text-indigo-primary" />
+                    <h2 className="font-serif text-xl text-gray-900">Upload Your Notes</h2>
+                </div>
+                {courseName && (
+                    <span className="text-xs font-medium text-indigo-primary bg-indigo-50 px-3 py-1 rounded-full">
+                        {courseName}
+                    </span>
+                )}
             </div>
 
             <div className="border-2 border-dashed border-slate-200 rounded-xl p-6 flex flex-col items-center justify-center bg-slate-50 relative transition-colors hover:border-indigo-primary/50">
@@ -73,8 +81,8 @@ export default function FileUpload({ studentName, className, topic }: FileUpload
                         onClick={handleUpload}
                         disabled={!file}
                         className={`w-full py-2 px-4 rounded-lg font-medium text-sm transition-colors ${file
-                                ? 'bg-indigo-primary text-white hover:bg-indigo-secondary'
-                                : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                            ? 'bg-indigo-primary text-white hover:bg-indigo-secondary'
+                            : 'bg-slate-200 text-slate-400 cursor-not-allowed'
                             }`}
                     >
                         Submit for AI Analysis

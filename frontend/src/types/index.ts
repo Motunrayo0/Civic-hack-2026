@@ -8,6 +8,7 @@ export interface StudentReflection {
   pattern: ThinkingPattern;
   timestamp: string;
   topic: string;
+  className?: string;
 }
 
 export interface StudentInsights {

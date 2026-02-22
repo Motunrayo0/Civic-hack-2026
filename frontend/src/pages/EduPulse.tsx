@@ -23,7 +23,7 @@ export default function EduPulse() {
         setIsLoading(true);
         const studentsData = await getStudents();
 
-        // Always pick the first student we get back from MongoDB
+        // Always pick the first student we get back from MongoDB (for hackathon)
         let targetStudent = studentsData.length > 0 ? studentsData[0] : null;
 
         if (!targetStudent) {
@@ -133,7 +133,8 @@ export default function EduPulse() {
                 <ActiveLessonView course={currentCourseData} reflections={courseReflections} />
                 <FileUpload
                   studentName={currentStudent.name}
-                  className={currentCourseData.name}
+                  className={currentCourseData.code}
+                  courseName={currentCourseData.name}
                   topic={currentCourseData.recentTopic}
                 />
               </>

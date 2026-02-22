@@ -10,7 +10,8 @@ interface ActiveLessonViewProps {
 
 export default function ActiveLessonView({ course, reflections }: ActiveLessonViewProps) {
   const topicReflections = reflections.filter(r => r.topic === course.recentTopic);
-  const latestReflection = topicReflections[topicReflections.length - 1];
+  console.log(topicReflections);
+  const latestNote = topicReflections[topicReflections.length - 1];
 
   return (
     <Card className="mb-4">
@@ -37,14 +38,14 @@ export default function ActiveLessonView({ course, reflections }: ActiveLessonVi
         </p>
       </div>
 
-      {/* Latest reflection */}
-      {latestReflection && (
+      {/* Latest Note */}
+      {latestNote && (
         <div className="border-t border-slate-100 pt-4">
-          <p className="text-xs text-gray-400 mb-2">Your latest reflection</p>
+          <p className="text-xs text-gray-400 mb-2">Your latest note</p>
           <div className="flex items-start gap-3">
-            <PatternBadge pattern={latestReflection.pattern} size="sm" />
+            <PatternBadge pattern={latestNote.pattern} size="sm" />
             <p className="text-sm text-gray-700 leading-relaxed italic">
-              "{latestReflection.content}"
+              "{latestNote.content}"
             </p>
           </div>
         </div>
