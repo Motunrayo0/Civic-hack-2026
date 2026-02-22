@@ -1,4 +1,3 @@
-import { Upload } from 'lucide-react';
 import type { StudentInsights, StudentReflection } from '../../types';
 import PatternBadge from '../ui/PatternBadge';
 

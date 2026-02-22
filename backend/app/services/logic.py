@@ -16,6 +16,19 @@ db = mongo_client["civic_hack"]
 
 MODEL_ID = "gemini-1.5-flash"
 
+def _parse_json_response(text: str | None) -> dict:
+    if not text:
+        return {}
+    cleaned = text.strip()
+    if cleaned.startswith("```"):
+        lines = cleaned.split("\n")
+        if len(lines) >= 2 and lines[-1].startswith("```"):
+            cleaned = "\n".join(lines[1:-1])
+    try:
+        return json.loads(cleaned)
+    except json.JSONDecodeError:
+        return {}
+
 """
 Sentiment Classification
 """
@@ -32,7 +45,7 @@ async def classify_sentiment(note_text: str):
         model=MODEL_ID, 
         contents=prompt
     )
-    return json.loads(response.text)
+    return _parse_json_response(response.text)
 
 """
 Confusion extraction
@@ -48,18 +61,20 @@ async def extract_confusion(note_text: str):
         model=MODEL_ID, 
         contents=prompt
     )
-    return json.loads(response.text)
+    return _parse_json_response(response.text)
 
 """
 Embedding Generation
 """
 async def generate_embedding(note_text: str):
     response = gemini_client.models.embed_content(
-        model="gemini-embedding-001",
-        contents=note_text,
+        model="text-embedding-004",
+        contents=[note_text],
         config={'task_type': 'clustering'}
     )
-    return response.embeddings[0].values
+    if response.embeddings:
+        return response.embeddings[0].values
+    return []
 
 """
 HeatMap Data Generation
@@ -137,9 +152,11 @@ async def generate_heatmap_data(class_name: str, date: str):
 
 def get_single_embedding(text: str):
     # This is kept for backwards compatibility if needed, but we recommend await generate_embedding
-    embedding = genai.embed_content(
-        model="models/text-embedding-004",
-        content=text,
-        task_type="clustering"
+    response = gemini_client.models.embed_content(
+        model="text-embedding-004",
+        contents=[text],
+        config={'task_type': 'clustering'}
     )
-    return embedding["embedding"]
+    if response.embeddings:
+        return response.embeddings[0].values
+    return []
