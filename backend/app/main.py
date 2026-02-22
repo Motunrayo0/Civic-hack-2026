@@ -1,6 +1,6 @@
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
-from models.students import upload_student_note
+from models.students import upload_student_note, get_students
 # from models.teachers import 
 from services.logic import generate_heatmap_data
 
@@ -13,7 +13,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 
 @app.get("/")
 def read_root():
@@ -31,3 +30,9 @@ async def upload_note(
     file: UploadFile = File(...)
 ):
     return await upload_student_note(student_name, class_name, topic, file)
+
+@app.get("/students")
+async def students():
+    return await get_students()
+
+

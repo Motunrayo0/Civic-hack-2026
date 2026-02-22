@@ -1,25 +1,105 @@
-import { useState } from 'react';
-import { ArrowLeft } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { ArrowLeft, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import StudentHeader from '../components/student/StudentHeader';
 import CourseCards from '../components/student/CourseCards';
 import ActiveLessonView from '../components/student/ActiveLessonView';
 import InsightsSidebar from '../components/student/InsightsSidebar';
 import FileUpload from '../components/student/FileUpload';
-import { COURSES, REFLECTIONS, STUDENTS, getInsightsForCourse } from '../data/mockData';
-
-// Simulate a logged-in student
-const CURRENT_STUDENT = STUDENTS[0];
+import { COURSES, getInsightsForCourse } from '../data/mockData';
+import { getStudents } from '../services/api';
+import type { Student, StudentReflection } from '../types';
 
 export default function EduPulse() {
   const navigate = useNavigate();
-  const [activeCourse, setActiveCourse] = useState(CURRENT_STUDENT.courses[0]);
+  const [currentStudent, setCurrentStudent] = useState<Student | null>(null);
+  const [activeCourse, setActiveCourse] = useState<string>('');
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const studentCourses = COURSES.filter(c => CURRENT_STUDENT.courses.includes(c.code));
-  const currentCourseData = COURSES.find(c => c.code === activeCourse)!;
-  const courseReflections = REFLECTIONS.filter(
-    r => r.studentId === CURRENT_STUDENT.id
+  useEffect(() => {
+    async function fetchStudentData() {
+      try {
+        setIsLoading(true);
+        const studentsData = await getStudents();
+
+        // Always pick the first student we get back from MongoDB
+        let targetStudent = studentsData.length > 0 ? studentsData[0] : null;
+
+        if (!targetStudent) {
+          throw new Error("No students found in the database.");
+        }
+
+        // Map MongoStudent to the local Student interface expected by UI
+        const mappedCourses = targetStudent.classes ? Object.keys(targetStudent.classes) : [];
+        const mappedReflections: StudentReflection[] = [];
+
+        if (targetStudent.classes) {
+          Object.entries(targetStudent.classes).forEach(([_, classData]) => {
+            Object.entries(classData).forEach(([date, noteData]) => {
+              // For now, map everything to 'wonder' as a default pattern 
+              mappedReflections.push({
+                id: `ref_${targetStudent!._id}_${date}`,
+                studentId: targetStudent!._id,
+                studentName: targetStudent!.name,
+                content: noteData.notes,
+                pattern: 'wonder',
+                timestamp: new Date(date).toISOString(),
+                topic: noteData.topic
+              });
+            });
+          });
+        }
+
+        const standardStudent: Student = {
+          id: targetStudent._id,
+          name: targetStudent.name,
+          courses: mappedCourses,
+          reflections: mappedReflections,
+          overallPattern: 'wonder' // default
+        };
+
+        setCurrentStudent(standardStudent);
+        if (mappedCourses.length > 0) {
+          setActiveCourse(mappedCourses[0]);
+        }
+      } catch (err: any) {
+        console.error("Failed to fetch student data:", err);
+        setError(err.message || "Failed to load academic profile");
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchStudentData();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-surface flex flex-col items-center justify-center">
+        <Loader2 size={40} className="animate-spin text-indigo-primary mb-4" />
+        <p className="text-gray-500 font-medium">Loading your academic profile...</p>
+      </div>
+    );
+  }
+
+  if (error || !currentStudent) {
+    return (
+      <div className="min-h-screen bg-surface flex flex-col items-center justify-center">
+        <p className="text-rose-600 font-medium mb-4">{error || "Could not load student data"}</p>
+        <button onClick={() => window.location.reload()} className="px-4 py-2 bg-indigo-primary text-white rounded-lg">Retry</button>
+      </div>
+    );
+  }
+
+  const studentCourses = COURSES.filter(c => currentStudent.courses.includes(c.code));
+  const currentCourseData = COURSES.find(c => c.code === activeCourse);
+
+  const courseReflections = currentStudent.reflections.filter(
+    // Match the note's date/time back to the active course 
+    _ => true // In a real app we'd filter by course ID. Using all for the demo.
   );
+
   const insights = getInsightsForCourse(activeCourse);
 
   return (
@@ -35,23 +115,29 @@ export default function EduPulse() {
       </nav>
 
       <main className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 py-4 md:py-6">
-        <StudentHeader greeting={CURRENT_STUDENT.name} insights={insights} reflections={courseReflections} />
+        <StudentHeader greeting={currentStudent.name} insights={insights} reflections={courseReflections} />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
           {/* Main content */}
           <div className="lg:col-span-2">
-            <CourseCards
-              courses={studentCourses}
-              onSelectCourse={setActiveCourse}
-              activeCourse={activeCourse}
-            />
-            <ActiveLessonView course={currentCourseData} reflections={courseReflections} />
+            {studentCourses.length > 0 && (
+              <CourseCards
+                courses={studentCourses}
+                onSelectCourse={setActiveCourse}
+                activeCourse={activeCourse}
+              />
+            )}
 
-            <FileUpload
-              studentName={CURRENT_STUDENT.name}
-              className={currentCourseData.name}
-              topic={currentCourseData.recentTopic}
-            />
+            {currentCourseData && (
+              <>
+                <ActiveLessonView course={currentCourseData} reflections={courseReflections} />
+                <FileUpload
+                  studentName={currentStudent.name}
+                  className={currentCourseData.name}
+                  topic={currentCourseData.recentTopic}
+                />
+              </>
+            )}
           </div>
 
           {/* Sidebar */}

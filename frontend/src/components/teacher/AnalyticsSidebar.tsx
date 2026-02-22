@@ -2,7 +2,7 @@ import { BarChart3, Hash } from 'lucide-react';
 import Card from '../ui/Card';
 import PatternBadge from '../ui/PatternBadge';
 import type { StudentReflection, ThinkingPattern } from '../../types';
-import { getPatternDistribution, TOPIC_CLUSTERS } from '../../data/mockData';
+import { getPatternDistribution } from '../../data/mockData';
 
 interface AnalyticsSidebarProps {
   reflections: StudentReflection[];
@@ -21,13 +21,22 @@ export default function AnalyticsSidebar({ reflections }: AnalyticsSidebarProps)
   const patterns: ThinkingPattern[] = ['confusion', 'curiosity', 'clarity', 'wonder'];
 
   // Compute top topics by frequency
-  const topicCounts: Record<string, number> = {};
+  const topicStats: Record<string, { count: number; patterns: Record<string, number> }> = {};
   reflections.forEach(r => {
-    topicCounts[r.topic] = (topicCounts[r.topic] || 0) + 1;
+    if (!topicStats[r.topic]) {
+      topicStats[r.topic] = { count: 0, patterns: {} };
+    }
+    topicStats[r.topic].count++;
+    topicStats[r.topic].patterns[r.pattern] = (topicStats[r.topic].patterns[r.pattern] || 0) + 1;
   });
-  const topTopics = Object.entries(topicCounts)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 5);
+
+  const topTopics = Object.entries(topicStats)
+    .sort((a, b) => b[1].count - a[1].count)
+    .slice(0, 5)
+    .map(([topic, stats]) => {
+      const dominantPattern = Object.entries(stats.patterns).sort((a, b) => b[1] - a[1])[0][0] as ThinkingPattern;
+      return { topic, count: stats.count, pattern: dominantPattern };
+    });
 
   return (
     <div className="space-y-6">
@@ -73,8 +82,7 @@ export default function AnalyticsSidebar({ reflections }: AnalyticsSidebarProps)
         </div>
 
         <div className="space-y-4 pt-1">
-          {topTopics.map(([topic, count], i) => {
-            const cluster = TOPIC_CLUSTERS.find(c => c.label === topic);
+          {topTopics.map(({ topic, count, pattern }, i) => {
             return (
               <div key={topic} className="flex items-center justify-between py-1.5">
                 <div className="flex items-center gap-2">
@@ -82,7 +90,7 @@ export default function AnalyticsSidebar({ reflections }: AnalyticsSidebarProps)
                   <span className="text-sm text-gray-700">{topic}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  {cluster && <PatternBadge pattern={cluster.pattern} showLabel={false} size="sm" />}
+                  <PatternBadge pattern={pattern} showLabel={false} size="sm" />
                   <span className="text-xs text-gray-400">{count}</span>
                 </div>
               </div>
