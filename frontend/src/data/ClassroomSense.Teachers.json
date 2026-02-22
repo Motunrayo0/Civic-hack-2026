@@ -1,0 +1,19 @@
+[{
+  "_id": {
+    "$oid": "699a2508051dd2f66ec9e7b2"
+  },
+  "teacher_name": "Dr. Aris Thorne",
+  "classes_taught": [
+    "Shakespeare_ENG302",
+    "CreativeWriting_ENG101"
+  ]
+},
+{
+  "_id": {
+    "$oid": "699a2508051dd2f66ec9e7b3"
+  },
+  "teacher_name": "Prof. Marcus Halloway",
+  "classes_taught": [
+    "Statistics_MATH201"
+  ]
+}]

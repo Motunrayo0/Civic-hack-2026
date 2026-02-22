@@ -1,0 +1,242 @@
+[{
+  "_id": {
+    "$oid": "699a10f6051dd2f66ec9e794"
+  },
+  "name": "Jordan Smith",
+  "classes": {
+    "Shakespeare_ENG302": {
+      "2026-02-21": {
+        "topic": "Iago's Manipulations",
+        "notes": "I'm confused about Iago's 'motive-hunting.' Why does he need a reason to be evil?"
+      }
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "699a11c0051dd2f66ec9e796"
+  },
+  "name": "Aria V.",
+  "classes": {
+    "Shakespeare_ENG302": {
+      "2026-02-21": {
+        "topic": "Hamlet's Hesitation",
+        "notes": "I'm lost. Why does Hamlet wait so long to kill Claudius? Is he actually scared or just overthinking the morality of revenge?"
+      }
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "699a11c0051dd2f66ec9e797"
+  },
+  "name": "Blake S.",
+  "classes": {
+    "Shakespeare_ENG302": {
+      "2026-02-21": {
+        "topic": "Hamlet's Hesitation",
+        "notes": "The 'antic disposition' is brilliant. By acting mad, Hamlet creates a smoke screen to observe Claudius without being a direct suspect."
+      }
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "699a11c0051dd2f66ec9e798"
+  },
+  "name": "Charlie D.",
+  "classes": {
+    "Shakespeare_ENG302": {
+      "2026-02-21": {
+        "topic": "Hamlet's Hesitation",
+        "notes": "What is the difference between Hamlet's feigned madness and Ophelia's actual madness? I don't understand where the line is."
+      }
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "699a11c0051dd2f66ec9e799"
+  },
+  "name": "Dani L.",
+  "classes": {
+    "Shakespeare_ENG302": {
+      "2026-02-21": {
+        "topic": "Hamlet's Hesitation",
+        "notes": "Hamlet's hesitation isn't weakness; it's a search for 'grounds more relative.' He needs certainty before he commits an unnatural act like regicide."
+      }
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "699a11c0051dd2f66ec9e79a"
+  },
+  "name": "Emerson J.",
+  "classes": {
+    "Shakespeare_ENG302": {
+      "2026-02-21": {
+        "topic": "Othello & Iago",
+        "notes": "I'm confused about Iago's motive-hunting. Does he really hate Othello because of the promotion, or is he just evil for the sake of it?"
+      }
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "699a11c0051dd2f66ec9e79b"
+  },
+  "name": "Finn K.",
+  "classes": {
+    "Shakespeare_ENG302": {
+      "2026-02-21": {
+        "topic": "Othello & Iago",
+        "notes": "Iago is a master of language. He uses Othello's racial insecurities as a lever to break his trust in Desdemona. It's psychological warfare."
+      }
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "699a11c0051dd2f66ec9e79c"
+  },
+  "name": "Gale M.",
+  "classes": {
+    "Shakespeare_ENG302": {
+      "2026-02-21": {
+        "topic": "Othello & Iago",
+        "notes": "Why does Othello trust Iago more than his own wife? This breakdown in communication is so frustrating to read. I don't get it."
+      }
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "699a11c0051dd2f66ec9e79d"
+  },
+  "name": "Hollis R.",
+  "classes": {
+    "Shakespeare_ENG302": {
+      "2026-02-21": {
+        "topic": "Othello & Iago",
+        "notes": "The handkerchief is a vital symbol of fidelity. Once Othello sees it in Cassio's hand, the 'proof' becomes ocular and undeniable to him."
+      }
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "699a11c0051dd2f66ec9e79e"
+  },
+  "name": "Indi P.",
+  "classes": {
+    "Shakespeare_ENG302": {
+      "2026-02-21": {
+        "topic": "Othello & Iago",
+        "notes": "I'm confused about the military hierarchy. Why was Cassio promoted over Iago in the first place? Was it purely favoritism?"
+      }
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "699a11c0051dd2f66ec9e79f"
+  },
+  "name": "Jordan T.",
+  "classes": {
+    "Shakespeare_ENG302": {
+      "2026-02-21": {
+        "topic": "Othello & Iago",
+        "notes": "Othello's tragic flaw is his 'free and open nature' which Iago exploits. His love is so intense it's easily curdled into jealousy."
+      }
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "699a11c0051dd2f66ec9e7a0"
+  },
+  "name": "Kai B.",
+  "classes": {
+    "Shakespeare_ENG302": {
+      "2026-02-21": {
+        "topic": "Hamlet's Hesitation",
+        "notes": "Is Hamlet a hero or a villain? He kills Polonius and treats Ophelia horribly. I'm struggling to stay on his side."
+      }
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "699a11c0051dd2f66ec9e7a1"
+  },
+  "name": "Lennon W.",
+  "classes": {
+    "Shakespeare_ENG302": {
+      "2026-02-21": {
+        "topic": "Hamlet's Hesitation",
+        "notes": "The 'To be or not to be' speech is the ultimate conceptual tension. It’s not just about suicide; it’s about the burden of existence."
+      }
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "699a121f051dd2f66ec9e7a3"
+  },
+  "name": "Jordan Smith",
+  "classes": {
+    "Shakespeare_ENG302": {
+      "2026-02-21": {
+        "topic": "Hamlet",
+        "notes": "I'm confused about the ghost. Is it a real ghost or just Hamlet's imagination? The language makes it hard to tell."
+      }
+    },
+    "Statistics_MATH201": {
+      "2026-02-21": {
+        "topic": "Central Limit Theorem",
+        "notes": "I don't get why the distribution becomes normal as the sample size increases. Why 30? Is that a magic number?"
+      }
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "699a121f051dd2f66ec9e7a4"
+  },
+  "name": "Casey Rivera",
+  "classes": {
+    "Shakespeare_ENG302": {
+      "2026-02-21": {
+        "topic": "Hamlet",
+        "notes": "The ghost acts as a catalyst for the plot. It represents the 'unresolved' past coming back to haunt the present."
+      }
+    },
+    "Statistics_MATH201": {
+      "2026-02-21": {
+        "topic": "Central Limit Theorem",
+        "notes": "The CLT is fascinating because it allows us to make inferences about a population even if the population isn't normal."
+      }
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "699a121f051dd2f66ec9e7a5"
+  },
+  "name": "Sam Taylor",
+  "classes": {
+    "Shakespeare_ENG302": {
+      "2026-02-21": {
+        "topic": "Hamlet",
+        "notes": "I'm lost on the scene with the players. Why is Hamlet so obsessed with the play-within-a-play?"
+      }
+    },
+    "Statistics_MATH201": {
+      "2026-02-21": {
+        "topic": "Central Limit Theorem",
+        "notes": "I'm totally stuck. How do we calculate the standard error again? The formula is confusing me."
+      }
+    }
+  }
+}]

@@ -6,7 +6,7 @@ import pymongo
 from fastapi import APIRouter, UploadFile, File, Form
 from docx import Document
 from dotenv import load_dotenv
-
+# This reaches into your logic.py file
 from services.logic import get_single_embedding 
 
 load_dotenv()
