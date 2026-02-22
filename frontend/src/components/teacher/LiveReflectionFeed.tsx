@@ -1,4 +1,4 @@
-import { MessageSquare } from 'lucide-react';
+import { MessageSquare, Trash2 } from 'lucide-react';
 import Card from '../ui/Card';
 import PatternBadge from '../ui/PatternBadge';
 import type { StudentReflection } from '../../types';
@@ -6,9 +6,10 @@ import type { StudentReflection } from '../../types';
 interface LiveReflectionFeedProps {
   reflections: StudentReflection[];
   onSelectStudent?: (studentId: string) => void;
+  onDeleteNote?: (reflection: StudentReflection) => void;
 }
 
-export default function LiveReflectionFeed({ reflections, onSelectStudent }: LiveReflectionFeedProps) {
+export default function LiveReflectionFeed({ reflections, onSelectStudent, onDeleteNote }: LiveReflectionFeedProps) {
   const sorted = [...reflections].sort(
     (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
   );
@@ -44,6 +45,18 @@ export default function LiveReflectionFeed({ reflections, onSelectStudent }: Liv
                   <span className="text-xs font-medium text-gray-500">{r.className}</span>
                 )}
                 <PatternBadge pattern={r.pattern} size="sm" />
+                {onDeleteNote && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onDeleteNote(r);
+                    }}
+                    className="p-1.5 text-gray-400 hover:text-rose-500 hover:bg-rose-50 rounded-full transition-colors"
+                    title="Delete Note"
+                  >
+                    <Trash2 size={14} />
+                  </button>
+                )}
               </div>
             </div>
             <p className="text-sm text-gray-600 leading-relaxed line-clamp-2">

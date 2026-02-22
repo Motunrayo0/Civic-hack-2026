@@ -1,6 +1,10 @@
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
-from models.students import upload_student_note, get_students
+from models.students import upload_student_note, get_students, delete_student_note
+
+# ... other imports ...
+
+# from models.teachers import
 # from models.teachers import 
 from services.logic import generate_heatmap_data
 
@@ -34,5 +38,9 @@ async def upload_note(
 @app.get("/students")
 async def students():
     return await get_students()
+
+@app.delete("/students/{student_id}/classes/{class_name}/notes/{date}")
+async def delete_note(student_id: str, class_name: str, date: str):
+    return await delete_student_note(student_id, class_name, date)
 
 

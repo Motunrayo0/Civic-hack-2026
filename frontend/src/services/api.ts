@@ -103,3 +103,23 @@ export async function getClassroomHeatmap(className: string, date: string) {
   const rawData = await response.json();
   return rawData;
 }
+
+/**
+ * Deletes a student's note from the backend.
+ *
+ * @param studentId - The ID of the student
+ * @param className - The course identifier
+ * @param date - The date of the note to delete
+ * @returns Status of the deletion
+ */
+export async function deleteNote(studentId: string, className: string, date: string): Promise<{ status: string; message: string }> {
+  const response = await fetch(`${API_BASE_URL}/students/${encodeURIComponent(studentId)}/classes/${encodeURIComponent(className)}/notes/${encodeURIComponent(date)}`, {
+    method: 'DELETE',
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to delete note: ${response.statusText}`);
+  }
+
+  return response.json();
+}

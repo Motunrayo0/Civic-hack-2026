@@ -57,6 +57,27 @@ export default function ClassroomPulse() {
     // Disabled manual student lookup mapping for time constraints
   };
 
+  const handleDeleteNote = async (reflection: StudentReflection) => {
+    try {
+      if (!reflection.className) {
+        throw new Error("Cannot delete note without a valid class name.");
+      }
+
+      // Parse out the date from the ID (format: r_{studentId}_{date})
+      const parts = reflection.id.split('_');
+      // Reconstruct the date part, joining remaining parts in case the date contains underscores
+      const dateStr = parts.slice(2).join('_');
+
+      await import('../services/api').then(m => m.deleteNote(reflection.studentId, reflection.className!, dateStr));
+
+      // Remove from UI state to update optimistically
+      setReflections(prev => prev.filter(r => r.id !== reflection.id));
+    } catch (e: any) {
+      console.error("Failed to delete note", e);
+      alert(`Error deleting note: ${e.message}`);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-surface">
       {/* Top bar */}
@@ -95,6 +116,7 @@ export default function ClassroomPulse() {
             <LiveReflectionFeed
               reflections={reflections}
               onSelectStudent={handleSelectStudentId}
+              onDeleteNote={handleDeleteNote}
             />
           </div>
           <div>
