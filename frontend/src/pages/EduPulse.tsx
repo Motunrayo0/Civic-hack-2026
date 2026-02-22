@@ -3,9 +3,9 @@ import { ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import StudentHeader from '../components/student/StudentHeader';
 import CourseCards from '../components/student/CourseCards';
-import ContributionTimeline from '../components/student/ContributionTimeline';
 import ActiveLessonView from '../components/student/ActiveLessonView';
 import InsightsSidebar from '../components/student/InsightsSidebar';
+import FileUpload from '../components/student/FileUpload';
 import { COURSES, REFLECTIONS, STUDENTS, getInsightsForCourse } from '../data/mockData';
 
 // Simulate a logged-in student
@@ -46,6 +46,12 @@ export default function EduPulse() {
               activeCourse={activeCourse}
             />
             <ActiveLessonView course={currentCourseData} reflections={courseReflections} />
+
+            <FileUpload
+              studentName={CURRENT_STUDENT.name}
+              className={currentCourseData.name}
+              topic={currentCourseData.recentTopic}
+            />
           </div>
 
           {/* Sidebar */}

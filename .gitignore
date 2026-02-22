@@ -30,6 +30,7 @@ backend/env/
 backend/ENV/
 backend/.venv/
 .venv
+venv
 
 # Python build files
 backend/build/
