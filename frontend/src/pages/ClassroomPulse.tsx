@@ -3,6 +3,7 @@ import { ArrowLeft, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import LiveReflectionFeed from '../components/teacher/LiveReflectionFeed';
 import AnalyticsSidebar from '../components/teacher/AnalyticsSidebar';
+import StudentJourneyModal from '../components/teacher/StudentJourneyModal';
 import type { StudentReflection } from '../types';
 import { getStudents } from '../services/api';
 
@@ -12,6 +13,7 @@ export default function ClassroomPulse() {
   const [reflections, setReflections] = useState<StudentReflection[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedStudentId, setSelectedStudentId] = useState<string | null>(null);
 
   // We are hardcoding the course and date for the hackathon demo
   const courseCode = 'Shakespeare_ENG302';
@@ -53,8 +55,8 @@ export default function ClassroomPulse() {
     loadData();
   }, []);
 
-  const handleSelectStudentId = () => {
-    // Disabled manual student lookup mapping for time constraints
+  const handleSelectStudentId = (studentId: string) => {
+    setSelectedStudentId(studentId);
   };
 
   const handleDeleteNote = async (reflection: StudentReflection) => {
@@ -125,7 +127,14 @@ export default function ClassroomPulse() {
         </div>
       </main>
 
-      {/* Student Journey Modal (Disabled for hackathon) */}
+      {/* Student Journey Modal */}
+      {selectedStudentId && (
+        <StudentJourneyModal
+          studentName={reflections.find(r => r.studentId === selectedStudentId)?.studentName || 'Student'}
+          reflections={reflections.filter(r => r.studentId === selectedStudentId)}
+          onClose={() => setSelectedStudentId(null)}
+        />
+      )}
     </div>
   );
 }
