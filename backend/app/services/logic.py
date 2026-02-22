@@ -1,5 +1,5 @@
 import os
-import google.generativeai as genai
+from google import genai
 from motor.motor_asyncio import AsyncIOMotorClient
 from bson import ObjectId
 import numpy as np
@@ -7,14 +7,13 @@ from sklearn.decomposition import PCA
 from sklearn.cluster import DBSCAN
 import json
 
-from ..models import students, teachers
 
 """
 LLM and Database Setup
 """
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
-model = genai.GenerativeModel("gemini-1.5-flash")
+model = client.models("gemini-1.5-flash")
 
 client = AsyncIOMotorClient("mongodb://localhost:27017")
 db = client["civic_hack"]
