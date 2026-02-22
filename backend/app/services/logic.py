@@ -21,7 +21,7 @@ import certifi
 mongo_client = AsyncIOMotorClient(os.getenv("MONGO_URI", "mongodb://localhost:27017"), tlsCAFile=certifi.where())
 db = mongo_client["ClassroomSense"]
 
-MODEL_ID = "gemini-2.5-flash-lite"
+MODEL_ID = "gemini-2.5-flash"
 
 def _parse_json_response(text: str | None) -> dict:
     if not text:
@@ -337,11 +337,38 @@ async def generate_heatmap_data(class_name: str, date: str):
             raise
 
 
-def get_single_embedding(text: str):
-    # This is kept for backwards compatibility if needed, but we recommend await generate_embedding
-    embedding = genai.embed_content(
-        model="gemini-embedding-001",
-        content=text,
-        task_type="clustering"
-    )
-    return embedding["embedding"]
+"""
+Cluster Summary Generation
+"""
+async def generate_cluster_summary(notes: list[str], pattern: str) -> str:
+    """
+    Generates a concise AI synthesis of what a cluster of students is thinking.
+    Used in the ClusterOverlay when a teacher clicks a pulse on the heatmap.
+    """
+    if not notes:
+        return "No student notes available for this cluster."
+
+    notes_block = "\n".join([f"- {note}" for note in notes])
+    prompt = f"""
+        You are an education insights assistant helping a teacher understand student thinking.
+        The following student notes all belong to a cluster of students whose dominant thinking pattern is: {pattern.upper()}.
+
+        Student notes:
+        {notes_block}
+
+        Write a concise, 1-2 sentence synthesis summarizing exactly what these students are thinking or struggling with.
+        It should be easy for a teacher to read mid-class, but detailed enough to identify the specific nuance or tension in their understanding.
+        Address the teacher directly (e.g., "Students are wondering about..."). No bullet points.
+    """
+
+    try:
+        async with api_lock:
+            await asyncio.sleep(2)
+            response = gemini_client.models.generate_content(
+                model=MODEL_ID,
+                contents=prompt
+            )
+        return response.text.strip() if response.text else "Could not generate summary."
+    except Exception as e:
+        logger.error({"error": str(e)}, "Cluster summary generation failed")
+        return "Summary unavailable — AI service encountered an error."

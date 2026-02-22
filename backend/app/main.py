@@ -14,7 +14,7 @@ from models.students import upload_student_note, get_students, delete_student_no
 
 # from models.teachers import
 # from models.teachers import 
-from services.logic import generate_heatmap_data, analyze_single_student_reflections
+from services.logic import generate_heatmap_data, analyze_single_student_reflections, generate_cluster_summary
 
 app = FastAPI()
 
@@ -55,4 +55,15 @@ async def delete_note(student_id: str, class_name: str, date: str):
 @app.get("/students/{student_id}/classes/{class_name}/reflections/analyze")
 async def analyze_student(student_id: str, class_name: str):
     return await analyze_single_student_reflections(student_id, class_name)
-    
+
+
+from pydantic import BaseModel
+
+class ClusterSummaryRequest(BaseModel):
+    notes: list[str]
+    pattern: str
+
+@app.post("/cluster/summary")
+async def cluster_summary(request: ClusterSummaryRequest):
+    summary = await generate_cluster_summary(request.notes, request.pattern)
+    return {"summary": summary}

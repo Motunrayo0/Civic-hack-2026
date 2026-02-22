@@ -1,6 +1,8 @@
-import { X, Users } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { X, Users, Sparkles } from 'lucide-react';
 import PatternBadge from '../ui/PatternBadge';
 import type { TopicCluster, StudentReflection } from '../../types';
+import { getClusterSummary } from '../../services/api';
 
 interface ClusterOverlayProps {
   cluster: TopicCluster;
@@ -10,6 +12,9 @@ interface ClusterOverlayProps {
 }
 
 export default function ClusterOverlay({ cluster, reflections, onClose, onSelectStudent }: ClusterOverlayProps) {
+  const [summary, setSummary] = useState<string | null>(null);
+  const [isSummarizing, setIsSummarizing] = useState(true);
+
   // De-duplicate reflections per student, keeping the most recent one
   const byStudent = new Map<string, StudentReflection>();
   reflections.forEach(r => {
@@ -19,6 +24,33 @@ export default function ClusterOverlay({ cluster, reflections, onClose, onSelect
     }
   });
   const studentReflections = Array.from(byStudent.values());
+
+  // Fetch AI cluster summary on mount
+  useEffect(() => {
+    const notes = studentReflections.map(r => r.content);
+    if (notes.length === 0) {
+      setIsSummarizing(false);
+      return;
+    }
+
+    let cancelled = false;
+    setIsSummarizing(true);
+
+    getClusterSummary(notes, cluster.pattern)
+      .then(text => {
+        if (!cancelled) setSummary(text);
+      })
+      .catch(err => {
+        console.warn('Could not fetch cluster summary', err);
+        if (!cancelled) setSummary(null);
+      })
+      .finally(() => {
+        if (!cancelled) setIsSummarizing(false);
+      });
+
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cluster.id]);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
@@ -52,7 +84,29 @@ export default function ClusterOverlay({ cluster, reflections, onClose, onSelect
           </button>
         </div>
 
-        {/* Content */}
+        {/* Cluster Summary */}
+        <div className="px-5 pt-4 pb-2">
+          <div className="glass rounded-2xl p-3 border border-slate-100">
+            <div className="flex items-center gap-2 mb-2">
+              <Sparkles size={14} className="text-indigo-primary" />
+              <span className="text-xs font-medium text-indigo-primary">Cluster Insight</span>
+            </div>
+
+            {isSummarizing ? (
+              /* Loading skeleton — 2 pulsing lines */
+              <div className="space-y-2 pt-1">
+                <div className="h-3 bg-slate-100 rounded-full w-full animate-pulse" />
+                <div className="h-3 bg-slate-100 rounded-full w-3/4 animate-pulse" style={{ animationDelay: '150ms' }} />
+              </div>
+            ) : summary ? (
+              <p className="text-sm text-gray-600 leading-relaxed">{summary}</p>
+            ) : (
+              <p className="text-sm text-gray-400 italic">Could not generate a summary for this cluster.</p>
+            )}
+          </div>
+        </div>
+
+        {/* Student Reflections */}
         <div className="p-5 overflow-y-auto space-y-3">
           {studentReflections.length === 0 ? (
             <p className="text-center py-8 text-gray-400 text-sm">No reflections found for this cluster.</p>

@@ -141,3 +141,26 @@ export async function getAnalyzedStudentReflections(studentId: string, className
 
   return response.json();
 }
+
+/**
+ * Requests an AI-generated synthesis of a cluster of student notes.
+ * Used in the ClusterOverlay when a teacher clicks a pulse on the heatmap.
+ *
+ * @param notes - Array of student note texts from the cluster
+ * @param pattern - The cluster's dominant thinking pattern (confusion/curiosity/clarity)
+ * @returns AI-generated summary string
+ */
+export async function getClusterSummary(notes: string[], pattern: string): Promise<string> {
+  const response = await fetch(`${API_BASE_URL}/cluster/summary`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ notes, pattern }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch cluster summary: ${response.statusText}`);
+  }
+
+  const data = await response.json();
+  return data.summary;
+}
