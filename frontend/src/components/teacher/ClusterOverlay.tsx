@@ -1,7 +1,6 @@
 import { X, Users } from 'lucide-react';
 import PatternBadge from '../ui/PatternBadge';
 import type { TopicCluster, StudentReflection } from '../../types';
-import { PATTERN_LABELS } from '../../types';
 
 interface ClusterOverlayProps {
   cluster: TopicCluster;
