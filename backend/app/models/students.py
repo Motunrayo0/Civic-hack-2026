@@ -1,8 +1,6 @@
-import os
 import datetime
 import io
 import asyncio
-
 from fastapi import UploadFile, File, Form
 from docx import Document
 from dotenv import load_dotenv
