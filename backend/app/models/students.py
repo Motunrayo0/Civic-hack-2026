@@ -6,7 +6,7 @@ from fastapi import UploadFile, File, Form
 from docx import Document
 from dotenv import load_dotenv
 # This reaches into your logic.py file
-from services.logic import generate_embedding
+from services.logic import batch_generate_embeddings
 from services.db import db
 
 load_dotenv()
@@ -28,8 +28,8 @@ async def upload_student_note(
     full_text = await asyncio.to_thread(parse_docx, content)
     
     # 2. Get the AI numbers from Gemini
-    ai_numbers = await generate_embedding(full_text)
-    print("Got to this point")
+    ai_numbers_batch = await batch_generate_embeddings([full_text])
+    ai_numbers = ai_numbers_batch[0] if ai_numbers_batch else []
     today = datetime.datetime.now().strftime("%Y-%m-%d")
 
     await db.students.update_one(

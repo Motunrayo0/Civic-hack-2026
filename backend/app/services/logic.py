@@ -8,7 +8,6 @@ from sklearn.decomposition import PCA
 from sklearn.cluster import DBSCAN
 import json
 import asyncio
-import traceback
 
 load_dotenv()
 
@@ -17,7 +16,7 @@ import certifi
 mongo_client = AsyncIOMotorClient(os.getenv("MONGO_URI", "mongodb://localhost:27017"), tlsCAFile=certifi.where())
 db = mongo_client["ClassroomSense"]
 
-MODEL_ID = "gemini-2.5-flash"
+MODEL_ID = "gemini-2.5-flash-lite"
 
 def _parse_json_response(text: str | None) -> dict:
     if not text:
@@ -35,19 +34,27 @@ def _parse_json_response(text: str | None) -> dict:
 api_lock = asyncio.Lock()
 
 """
-Sentiment Classification
+Batch Sentiment Classification
 """
-async def classify_sentiment(note_text: str):
+async def batch_classify_sentiments(notes_dict: dict):
+    if not notes_dict:
+        return {}
+    notes_str = "\n".join([f'"{sid}": "{text}"' for sid, text in notes_dict.items()])
     prompt = f"""
         You are an academic sentiment classifier.
-        Classify this classroom note into: CONFUSION, UNDERSTOOD, UNANSWERED_QUESTION.
-        Return ONLY valid JSON:
-        {{ "sentiment": "...", "confidence": float }}
-        Student note: {note_text}
+        Classify the following classroom notes into: CONFUSION, UNDERSTOOD, UNANSWERED_QUESTION.
+        Return ONLY valid JSON mapping the student ID to their classification:
+        {{
+            "student_id_1": {{ "sentiment": "...", "confidence": float }},
+            "student_id_2": {{ "sentiment": "...", "confidence": float }}
+        }}
+        
+        Notes:
+        {notes_str}
     """
 
     async with api_lock:
-        await asyncio.sleep(3)
+        await asyncio.sleep(8)
         response = gemini_client.models.generate_content(
             model=MODEL_ID, 
             contents=prompt
@@ -55,17 +62,25 @@ async def classify_sentiment(note_text: str):
     return _parse_json_response(response.text)
 
 """
-Confusion extraction
+Batch Confusion Extraction
 """
-async def extract_confusion(note_text: str):
+async def batch_extract_confusions(notes_dict: dict):
+    if not notes_dict:
+        return {}
+    notes_str = "\n".join([f'"{sid}": "{text}"' for sid, text in notes_dict.items()])
     prompt = f"""
-        Extract confusion topics from this academic note.
-        Return ONLY JSON:
-        {{ "confusion_topics": [ {{ "topic": "short title", "description": "clear explanation" }} ] }}
-        Note: {note_text}
+        Extract confusion topics from these academic notes.
+        Return ONLY valid JSON mapping the student ID to their confusion topics:
+        {{
+            "student_id_1": {{ "confusion_topics": [ {{ "topic": "short title", "description": "clear explanation" }} ] }},
+            "student_id_2": {{ "confusion_topics": [ {{ "topic": "short title", "description": "clear explanation" }} ] }}
+        }}
+        
+        Notes:
+        {notes_str}
     """
     async with api_lock:
-        await asyncio.sleep(3)
+        await asyncio.sleep(8)
         response = gemini_client.models.generate_content(
             model=MODEL_ID, 
             contents=prompt
@@ -73,19 +88,24 @@ async def extract_confusion(note_text: str):
     return _parse_json_response(response.text)
 
 """
-Embedding Generation
+Batch Embedding Generation
 """
-async def generate_embedding(note_text: str):
+async def batch_generate_embeddings(note_texts: list):
+    if not note_texts:
+        return []
     async with api_lock:
-        await asyncio.sleep(3)
+        await asyncio.sleep(8)
         response = gemini_client.models.embed_content(
             model="gemini-embedding-001",
-            contents=[note_text],
+            contents=note_texts,
             config={'task_type': 'clustering'}
         )
     if response.embeddings:
-        return response.embeddings[0].values
+        return [e.values for e in response.embeddings]
     return []
+
+# Simple in-memory cache to prevent spamming the Gemini API on page reloads/React StrictMode double-mounts
+_heatmap_cache = {}
 
 """
 HeatMap Data Generation
@@ -100,61 +120,72 @@ async def generate_heatmap_data(class_name: str, date: str):
         if not students:
             return []
 
-        async def process_student(student):
+        # Check cache based on student count
+        cache_key = f"{class_name}_{date}"
+        if cache_key in _heatmap_cache and _heatmap_cache[cache_key]["count"] == len(students):
+            return _heatmap_cache[cache_key]["data"]
+
+        # Prepare data for processing
+        valid_students = []
+        for student in students:
             student_id = str(student["_id"])
             name = student.get("name", "Unknown")
+        
+            if "classes" not in student or class_name not in student["classes"] or date not in student["classes"][class_name]:
+                continue
             
-            try:
-                # Handle cases where classes might not exist properly depending on schema changes
-                if "classes" not in student or class_name not in student["classes"] or date not in student["classes"][class_name]:
-                    return None
-                    
-                note_data = student["classes"][class_name][date]
-                note_text = note_data.get("notes", "").strip()
+            note_data = student["classes"][class_name][date]
+            note_text = note_data.get("notes", "").strip()
 
-                if not note_text:
-                    return None
-
-                # Async calls
-                sentiment_task = asyncio.create_task(classify_sentiment(note_text))
-                embedding_task = asyncio.create_task(generate_embedding(note_text))
-
-                sentiment_data = await sentiment_task
-                sentiment = sentiment_data.get("sentiment", "UNKNOWN")
-                confidence = sentiment_data.get("confidence", 0.0)
-
-                if sentiment in ["CONFUSION", "UNANSWERED_QUESTION"]:
-                    confusion_task = asyncio.create_task(extract_confusion(note_text))
-                    confusion_result = await confusion_task
-                    confusion_topics = confusion_result.get("confusion_topics", [])
-                else:
-                    confusion_topics = []
-
-                embedding = await embedding_task
-
-                return {
+            if note_text:
+                valid_students.append({
                     "student_id": student_id,
                     "name": name,
-                    "sentiment": sentiment,
-                    "confidence": confidence,
-                    "confusion_topics": confusion_topics,
-                    "embedding": embedding
-                }
-            except Exception as e:
-                traceback.print_exc()
-                return None
+                    "note_text": note_text
+                })
 
-        # Process all students concurrently
-        tasks = [process_student(s) for s in students]
-        processed_students_list = await asyncio.gather(*tasks)
-        processed_students = [s for s in processed_students_list if s is not None]
+        processed_students = []
+    
+        notes_dict = {s["student_id"]: s["note_text"] for s in valid_students}
+        note_texts = [s["note_text"] for s in valid_students]
         
+        # 1. Batch Embedding
+        embeddings = await batch_generate_embeddings(note_texts)
+    
+        # 2. Batch Sentiment
+        sentiments_result = await batch_classify_sentiments(notes_dict)
+    
+        # 3. Filter for confusion extraction
+        confused_notes_dict = {}
+        for sid, text in notes_dict.items():
+            s_data = sentiments_result.get(sid, {})
+            sentiment = s_data.get("sentiment", "UNKNOWN")
+            if sentiment in ["CONFUSION", "UNANSWERED_QUESTION"]:
+                confused_notes_dict[sid] = text
+            
+        confusions_result = await batch_extract_confusions(confused_notes_dict) if confused_notes_dict else {}
+    
+        # 4. Assemble processed data for this chunk
+        for j, s in enumerate(valid_students):
+            sid = s["student_id"]
+            s_data = sentiments_result.get(sid, {})
+            c_data = confusions_result.get(sid, {})
+        
+            processed_students.append({
+                "student_id": sid,
+                "name": s["name"],
+                "sentiment": s_data.get("sentiment", "UNKNOWN"),
+                "confidence": s_data.get("confidence", 0.0),
+                "confusion_topics": c_data.get("confusion_topics", []),
+                "embedding": embeddings[j] if j < len(embeddings) else []
+            })
+            
         if not processed_students:
             return []
 
         # Build embedding matrix
         embeddings_np = np.array([s["embedding"] for s in processed_students if s["embedding"] is not None and len(s["embedding"]) > 0])
-        
+    
         if len(embeddings_np) == 0:
             return []
 
@@ -165,12 +196,12 @@ async def generate_heatmap_data(class_name: str, date: str):
         # Run PCA in a separate thread to avoid blocking the event loop
         loop = asyncio.get_event_loop()
         n_components = min(2, len(embeddings_np), len(embeddings_np[0])) if len(embeddings_np) > 0 else 2
-        
+    
         if n_components > 0:
              coords = await loop.run_in_executor(None, lambda: PCA(n_components=n_components).fit_transform(embeddings_np))
         else:
              coords = np.zeros((len(embeddings_np), 2))
-             
+         
         # If n_components was 1, pad coords to be 2D
         if coords.shape[1] == 1:
             coords = np.pad(coords, ((0, 0), (0, 1)), 'constant')
@@ -180,12 +211,11 @@ async def generate_heatmap_data(class_name: str, date: str):
 
         # Build heatmap data
         heatmap_data = []
-        
+    
         # We need to map only those students who had valid embeddings back to the original list
-        # We filtered processed_students above, so let's match the indices
-        valid_students = [s for s in processed_students if s["embedding"] is not None and len(s["embedding"]) > 0]
-        
-        for i, student in enumerate(valid_students):
+        valid_students_processed = [s for s in processed_students if s["embedding"] is not None and len(s["embedding"]) > 0]
+    
+        for i, student in enumerate(valid_students_processed):
             heatmap_data.append({
                 "student_id": student["student_id"],
                 "name": student["name"],
@@ -196,12 +226,16 @@ async def generate_heatmap_data(class_name: str, date: str):
                 "cluster": int(labels[i]),
                 "confusion_topics": student["confusion_topics"]
             })
-
+        # Save to cache
+        _heatmap_cache[cache_key] = {
+            "count": len(students),
+            "data": heatmap_data
+        }
+        
         return heatmap_data
 
     except Exception as e:
-        traceback.print_exc()
-        raise e
+        raise
 
 
 def get_single_embedding(text: str):
